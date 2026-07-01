@@ -504,3 +504,310 @@ function useIsVisible(ref: RefObject<HTMLElement | null>) {
   return visible;
 }
 
+// Achievements & Feedback Client Component
+import { Marquee } from '@/app/(home)/marquee';
+import { motion, AnimatePresence } from 'framer-motion';
+import RotatingEarth from '@/components/ui/wireframe-dotted-globe';
+
+const buttonVariants = cva(
+  'inline-flex items-center justify-center rounded-xl text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background',
+  {
+    variants: {
+      variant: {
+        primary: 'bg-brand text-brand-foreground hover:bg-brand-200',
+        secondary: 'border bg-fd-secondary text-fd-secondary-foreground hover:bg-fd-accent',
+      },
+    },
+    defaultVariants: {
+      variant: 'primary',
+    },
+  },
+);
+
+const cardVariants = cva('rounded-2xl text-sm p-6 bg-origin-border shadow-lg', {
+  variants: {
+    variant: {
+      secondary: 'bg-brand-secondary text-brand-secondary-foreground',
+      default: 'border bg-fd-card',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+  },
+});
+
+const feedback = [
+  {
+    avatar: 'https://avatars.githubusercontent.com/u/124599',
+    user: 'Fest Coordinator',
+    role: 'Vignan College Dean',
+    message: `Shubham single-handedly built our ticketing system. The QR code check-in cleared crowds instantly.`,
+  },
+  {
+    avatar: 'https://avatars.githubusercontent.com/u/35677084',
+    user: 'Freelance Client',
+    role: 'Full-Stack Product Owner',
+    message: `Delivered a clean, robust mobile app for our business on-time. Gained great student industry exposure.`,
+  },
+  {
+    user: 'Hackathon Judge',
+    avatar: 'https://avatars.githubusercontent.com/u/38025074',
+    role: 'Inter-College Jury',
+    message: 'The JanAI multilingual voice assistant showed excellent innovation and practical civic application.',
+  },
+  {
+    avatar: 'https://avatars.githubusercontent.com/u/10645823',
+    user: 'Aid-X Club',
+    role: 'Tech Community Lead',
+    message: `Shubham grew the club to 200+ members, leading workshops on Web Dev and GenAI with amazing energy.`,
+  },
+];
+
+export function Feedback() {
+  const achievements = [
+    {
+      id: 1,
+      subtitle: "Student Innovation",
+      title: "3× Hackathon Winner",
+      logo: (
+        <svg className="size-5 text-amber-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M6 9H4.5a2.5 2.5 0 010-5H6M18 9h1.5a2.5 2.5 0 000-5H18M4 22h16M10 14.66V17c0 .55-.45 1-1 1H4v2h16v-2h-5c-.55 0-1-.45-1-1v-2.34M12 2a7 7 0 00-7 7v4a3 3 0 003 3h8a3 3 0 003-3V9a7 7 0 00-7-7z" />
+        </svg>
+      )
+    },
+    {
+      id: 2,
+      subtitle: "Ideathons & Coding",
+      title: "Best Innovation Award",
+      logo: (
+        <svg className="size-5 text-yellow-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364.364l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>
+      )
+    },
+    {
+      id: 3,
+      subtitle: "Rapid Execution",
+      title: "Zero-to-One Prototyping",
+      logo: (
+        <svg className="size-5 text-rose-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.59 14.37a6 6 0 01-2.2 2.21l-3.3 1.65a1 1 0 01-1.34-1.34l1.65-3.3a6 6 0 012.21-2.2l6.23-3.12a1 1 0 011.34 1.34l-3.12 6.24zM10.15 15.15l-3.12-3.12M12.5 12.5l-4-4" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9.5 21a11.5 11.5 0 01-7.5-7.5" />
+        </svg>
+      )
+    },
+    {
+      id: 4,
+      subtitle: "Student Community",
+      title: "Organized 8+ Hackathons",
+      logo: (
+        <svg className="size-5 text-indigo-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      )
+    },
+    {
+      id: 5,
+      subtitle: "Peer Mentorship",
+      title: "Conducted 12+ Workshops",
+      logo: (
+        <svg className="size-5 text-emerald-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0v6M6 18.8V12m12 6.8V12" />
+        </svg>
+      )
+    },
+    {
+      id: 6,
+      subtitle: "In Last 6 Months",
+      title: "Delivered 25+ Startup Apps",
+      logo: (
+        <svg className="size-5 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      )
+    },
+    {
+      id: 7,
+      subtitle: "Speed Programming",
+      title: "Coding Contest 1st Place",
+      logo: (
+        <svg className="size-5 text-orange-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <circle cx="12" cy="8" r="6" strokeLinecap="round" strokeLinejoin="round" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12" />
+        </svg>
+      )
+    },
+    {
+      id: 8,
+      subtitle: "Aid-X Club President",
+      title: "Led 350+ Club Members",
+      logo: (
+        <svg className="size-5 text-teal-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+      )
+    }
+  ];
+
+  return (
+    <>
+      <div className="bg-white dark:bg-neutral-950 bg-gradient-to-b from-violet-50/70 to-white dark:from-violet-950/20 dark:to-neutral-950 border border-violet-100/80 dark:border-violet-900/30 rounded-2xl p-6 shadow-lg flex flex-col justify-between overflow-hidden gap-6">
+        <div className="space-y-4">
+          <h3 className="text-xl lg:text-2xl font-jakarta font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">
+            Milestones & Recognition
+          </h3>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
+            Won top titles including Best Innovation across multiple inter-college hackathons, ideathons, and coding competitions, designing functional prototypes at speed.
+          </p>
+
+          {/* Interactive Achievements Deck - All 8 Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 w-full">
+            {achievements.map((ach) => (
+              <div
+                key={ach.id}
+                className="flex items-center gap-3 p-2.5 bg-neutral-50/40 dark:bg-neutral-900/40 rounded-xl border border-violet-100/10 dark:border-violet-900/10 transition-all hover:scale-[1.02] shadow-sm"
+              >
+                <div className="size-8 rounded-lg bg-white dark:bg-neutral-850 flex items-center justify-center border border-violet-100/20 dark:border-violet-900/20 shadow-sm shrink-0">
+                  {ach.logo}
+                </div>
+                <div className="flex flex-col min-w-0">
+                  <span className="text-[10px] text-neutral-400 font-medium leading-none mb-1">{ach.subtitle}</span>
+                  <span className="text-xs font-bold text-neutral-800 dark:text-neutral-200 truncate leading-tight">{ach.title}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div
+        className={cn(
+          cardVariants({
+            variant: 'secondary',
+            className: 'relative p-8 flex flex-col gap-8 overflow-hidden bg-white dark:bg-neutral-950 bg-gradient-to-b from-rose-500/10 via-transparent to-transparent border border-rose-200/60 dark:border-rose-950/20 dark:from-rose-950/20 dark:to-transparent',
+          }),
+        )}
+      >
+        {/* Top Header */}
+        <div className="flex items-center justify-between">
+          <div className="space-y-1">
+            <h3 className="text-2xl font-jakarta font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">
+              Global Client Footprint
+            </h3>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400 max-w-[500px]">
+              Highlighting active collaborations and software deliveries across major hubs in the **UK, India, and Australia**.
+            </p>
+          </div>
+          {/* Live Indicator Dot */}
+          <div className="flex items-center gap-1.5 bg-rose-500/10 dark:bg-rose-500/20 px-3 py-1 rounded-full border border-rose-500/20">
+            <span className="relative flex size-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full size-2 bg-rose-500"></span>
+            </span>
+            <span className="text-[10px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider font-jakarta">Live Network</span>
+          </div>
+        </div>
+
+        {/* 3-Column Split Content Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+          
+          {/* Left Side: Collaborations Checklist */}
+          <div className="md:col-span-4 flex flex-col gap-4">
+            <div className="flex gap-3">
+              <svg className="size-5 text-rose-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+              <div>
+                <h4 className="font-jakarta text-[13px] font-bold text-neutral-900 dark:text-neutral-100">
+                  Trusted by Startups to Enterprises
+                </h4>
+                <p className="font-jakarta text-[11px] text-neutral-500 dark:text-neutral-400 leading-normal mt-0.5">
+                  From early-stage ideas to scaling giants.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <svg className="size-5 text-rose-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              <div>
+                <h4 className="font-jakarta text-[13px] font-bold text-neutral-900 dark:text-neutral-100">
+                  Collaborations That Drive Impact
+                </h4>
+                <p className="font-jakarta text-[11px] text-neutral-500 dark:text-neutral-400 leading-normal mt-0.5">
+                  Long-term partnerships built on trust.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <svg className="size-5 text-rose-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div>
+                <h4 className="font-jakarta text-[13px] font-bold text-neutral-900 dark:text-neutral-100">
+                  Delivering Across Time Zones
+                </h4>
+                <p className="font-jakarta text-[11px] text-neutral-500 dark:text-neutral-400 leading-normal mt-0.5">
+                  Agile teams working, globally connected.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <svg className="size-5 text-rose-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+              </svg>
+              <div>
+                <h4 className="font-jakarta text-[13px] font-bold text-neutral-900 dark:text-neutral-100">
+                  Solutions That Scale Globally
+                </h4>
+                <p className="font-jakarta text-[11px] text-neutral-500 dark:text-neutral-400 leading-normal mt-0.5">
+                  Built to solve problems, anywhere.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Center Column: Globe Viewport - size constrained to 220px to prevent stretching */}
+          <div className="md:col-span-4 flex items-center justify-center shrink-0">
+            <div className="relative size-[225px] shrink-0 rounded-full bg-transparent overflow-hidden flex items-center justify-center">
+              <RotatingEarth className="size-[220px] shrink-0" width={220} height={220} />
+            </div>
+          </div>
+
+          {/* Right Side: Key Performance Metrics */}
+          <div className="md:col-span-4 grid grid-cols-2 md:grid-cols-1 gap-3.5 pl-0 md:pl-8 border-t md:border-t-0 md:border-l border-neutral-100 dark:border-neutral-900 pt-5 md:pt-0">
+            <div className="space-y-0.5">
+              <span className="font-jakarta text-2xl font-black text-rose-500 block tracking-tight leading-none">4+</span>
+              <span className="font-jakarta text-[10px] font-bold text-neutral-500 dark:text-neutral-400 block tracking-wider uppercase">Countries Served</span>
+            </div>
+
+            <div className="space-y-0.5">
+              <span className="font-jakarta text-2xl font-black text-rose-500 block tracking-tight leading-none">50+</span>
+              <span className="font-jakarta text-[10px] font-bold text-neutral-500 dark:text-neutral-400 block tracking-wider uppercase">Active Clients</span>
+            </div>
+
+            <div className="space-y-0.5">
+              <span className="font-jakarta text-2xl font-black text-rose-500 block tracking-tight leading-none">80+</span>
+              <span className="font-jakarta text-[10px] font-bold text-neutral-500 dark:text-neutral-400 block tracking-wider uppercase">Projects Delivered</span>
+            </div>
+
+            <div className="space-y-0.5">
+              <span className="font-jakarta text-2xl font-black text-rose-500 block tracking-tight leading-none">5+</span>
+              <span className="font-jakarta text-[10px] font-bold text-neutral-500 dark:text-neutral-400 block tracking-wider uppercase">Industry Domains</span>
+            </div>
+
+            <div className="space-y-0.5">
+              <span className="font-jakarta text-2xl font-black text-rose-500 block tracking-tight leading-none">98%</span>
+              <span className="font-jakarta text-[10px] font-bold text-neutral-500 dark:text-neutral-400 block tracking-wider uppercase">Client Retention</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </>
+  );
+}
+

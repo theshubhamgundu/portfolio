@@ -154,4 +154,4 @@ const PrismaHero = () => {
   );
 };
 
-export {PrismaHero}
+export { PrismaHero };

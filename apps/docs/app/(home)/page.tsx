@@ -27,6 +27,7 @@ import {
   PreviewImages,
   Writing,
   ScrollAnimatedSection,
+  Feedback,
 } from '@/app/(home)/page.client';
 import { PrismaHero } from '@/components/ui/prisma-hero';
 import { Component as Background } from '@/components/ui/background-snippets';
@@ -35,6 +36,7 @@ import { ServicesSection } from '@/components/ui/services-section';
 import ShadcnImage from './shadcn.png';
 import ContributorCounter from '@/components/contributor-count';
 import StoryImage from './story.png';
+import ShubsssDevImage from './shubsss-dev.jpeg';
 import Bg2Image from './bg-2.png';
 import { story } from './story/client.story';
 
@@ -329,133 +331,134 @@ function Story() {
 
 function Aesthetics() {
   return (
-    <>
-      <div
-        className={cn(
-          cardVariants({
-            variant: 'secondary',
-            className: 'flex items-center justify-center p-0',
-          }),
-        )}
-      >
-        <PreviewImages />
-      </div>
-      <div className={cn(cardVariants(), 'flex flex-col')}>
-        <h3 className={cn(headingVariants({ variant: 'h3', className: 'mb-4' }))}>
-          My Go-To Tech Stack.
-        </h3>
-        <p className="mb-8 text-fd-muted-foreground">
-          The development tools and frameworks I love working with the most.
-        </p>
-        <div className="flex-1 rounded-xl flex items-center justify-center py-10 px-4 relative overflow-visible">
-          <div className="relative" style={{ width: 280, height: 280 }}>
-            {/* Connecting Lines — solid thin gray with animated pulses */}
-            <svg className="absolute inset-0 w-full h-full" style={{ zIndex: 0 }} viewBox="0 0 280 280">
-              <style>{`
-                @keyframes flow-out {
-                  0% { stroke-dashoffset: 0; }
-                  100% { stroke-dashoffset: -300; }
-                }
-                .animate-flow {
-                  animation: flow-out 2s linear infinite;
-                }
-              `}</style>
-              
-              {/* Animated lines rendered dynamically */}
-              {[
-                { x: 250, y: 140 },  // 0 deg (Right)
-                { x: 218, y: 218 },  // 45 deg (Bottom-Right)
-                { x: 140, y: 250 },  // 90 deg (Bottom)
-                { x: 62, y: 218 },   // 135 deg (Bottom-Left)
-                { x: 30, y: 140 },   // 180 deg (Left)
-                { x: 62, y: 62 },    // 225 deg (Top-Left)
-                { x: 140, y: 30 },   // 270 deg (Top)
-                { x: 218, y: 62 },   // 315 deg (Top-Right)
-              ].map((target, i) => {
-                const dx = target.x - 140;
-                const dy = target.y - 140;
-                const len = Math.sqrt(dx * dx + dy * dy);
-                const nx = -dy / len;
-                const ny = dx / len;
-                return [-6, 0, 6].map((offset, j) => {
-                  const x1 = 140 + nx * offset;
-                  const y1 = 140 + ny * offset;
-                  const x2 = target.x + nx * offset;
-                  const y2 = target.y + ny * offset;
-                  return (
-                    <g key={`${i}-${j}`}>
-                      <line
-                        x1={x1}
-                        y1={y1}
-                        x2={x2}
-                        y2={y2}
-                        stroke="#d1d5db"
-                        strokeWidth="1.5"
-                        className="dark:stroke-neutral-700"
-                      />
-                      <line
-                        x1={x1}
-                        y1={y1}
-                        x2={x2}
-                        y2={y2}
-                        stroke="#3b82f6"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeDasharray="15 300"
-                        className="animate-flow"
-                        style={{ animationDelay: '0s' }}
-                      />
-                    </g>
-                  );
-                });
-              })}
+    <div className="col-span-full py-16 md:py-24 border-t border-neutral-100 dark:border-neutral-900 mt-16 md:mt-24 space-y-20 md:space-y-28">
+      
+      {/* Row 1: Team Photo and More About Us */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        {/* Left Side: Circular Group Image & Rotating Stamp */}
+        <div className="lg:col-span-5 flex justify-center items-center relative">
+          <div className="relative size-[310px] sm:size-[380px] rounded-full border border-neutral-200 dark:border-neutral-800 overflow-hidden shadow-xl bg-neutral-100 dark:bg-neutral-900">
+            <Image
+              src={ShubsssDevImage}
+              alt="WebbHeads Team"
+              className="size-full object-cover object-top"
+            />
+          </div>
+          {/* Overlapping Stamp Badge */}
+          <div className="absolute -top-3 right-6 sm:-top-4 sm:right-8 size-28 rounded-full bg-white dark:bg-neutral-950 border border-neutral-900 dark:border-neutral-100 shadow-md flex items-center justify-center">
+            <svg className="absolute inset-0 size-full animate-[spin_20s_linear_infinite]" viewBox="0 0 100 100">
+              <path id="circlePath" d="M 50, 50 m -40, 0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0" fill="none" />
+              <text className="text-[5px] font-extrabold fill-neutral-800 dark:fill-neutral-200 uppercase tracking-[0.14em] font-jakarta">
+                <textPath href="#circlePath" startOffset="0%">
+                  leaders • driven by innovation •
+                </textPath>
+              </text>
             </svg>
+            {/* Center Arrow SVG to prevent Windows emoji rendering bug */}
+            <svg className="size-6 text-neutral-800 dark:text-neutral-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+            </svg>
+          </div>
+        </div>
 
-            {/* Center Node */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-14 bg-fd-card rounded-2xl border shadow-xl flex items-center justify-center" style={{ zIndex: 2 }}>
-              <span className="text-fd-foreground font-semibold text-xl tracking-tight" style={{ fontFamily: '"Caveat", "Dancing Script", cursive', fontStyle: 'italic' }}>
-                shubsss
-              </span>
-            </div>
+        {/* Right Side: Bio and Details */}
+        <div className="lg:col-span-7 flex flex-col justify-center space-y-8 relative pr-8 sm:pr-16 lg:pr-24">
+          {/* Floating Hearts Icon - hand drawn mockup style */}
+          <div className="absolute right-0 top-0 text-neutral-800 dark:text-neutral-200 select-none opacity-80">
+            <svg className="size-20" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              {/* Large Heart - left */}
+              <path d="M50 85 C20 60 10 40 25 25 C40 10 50 30 50 30 C50 30 60 10 75 25 C90 40 80 60 50 85 Z" transform="translate(10, 10) scale(0.48) rotate(-15 50 50)" />
+              {/* Small Heart - right */}
+              <path d="M50 85 C20 60 10 40 25 25 C40 10 50 30 50 30 C50 30 60 10 75 25 C90 40 80 60 50 85 Z" transform="translate(42, 38) scale(0.3) rotate(15 50 50)" />
+            </svg>
+          </div>
 
-            {/* Orbiting Nodes (8 total) */}
-            
-            {/* 0 deg (Right) */}
-            <div className="absolute w-12 h-12 bg-fd-card rounded-2xl border shadow-md flex items-center justify-center" style={{ top: 140, left: 250, transform: 'translate(-50%, -50%)', zIndex: 1 }}>
-              <ReactLogo className="size-7 text-[#61DAFB]" />
+          <div className="flex items-center justify-between">
+            {/* Pill Badge */}
+            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full border border-neutral-300 dark:border-neutral-800 text-[11px] font-bold text-neutral-700 dark:text-neutral-300 bg-neutral-50 dark:bg-neutral-900 select-none">
+              <span>✦ ABOUT</span>
             </div>
-            {/* 45 deg (Bottom-Right) */}
-            <div className="absolute w-12 h-12 bg-fd-card rounded-2xl border shadow-md flex items-center justify-center" style={{ top: 218, left: 218, transform: 'translate(-50%, -50%)', zIndex: 1 }}>
-              <NextjsLogo className="size-7 text-fd-foreground" />
-            </div>
-            {/* 90 deg (Bottom) */}
-            <div className="absolute w-12 h-12 bg-fd-card rounded-2xl border shadow-md flex items-center justify-center" style={{ top: 250, left: 140, transform: 'translate(-50%, -50%)', zIndex: 1 }}>
-              <TypescriptLogo className="size-7 text-[#3178C6]" />
-            </div>
-            {/* 135 deg (Bottom-Left) */}
-            <div className="absolute w-12 h-12 bg-fd-card rounded-2xl border shadow-md flex items-center justify-center" style={{ top: 218, left: 62, transform: 'translate(-50%, -50%)', zIndex: 1 }}>
-              <NodejsLogo className="size-7 text-[#5FA04E]" />
-            </div>
-            {/* 180 deg (Left) */}
-            <div className="absolute w-12 h-12 bg-fd-card rounded-2xl border shadow-md flex items-center justify-center" style={{ top: 140, left: 30, transform: 'translate(-50%, -50%)', zIndex: 1 }}>
-              <TailwindcssLogo className="size-7 text-[#06B6D4]" />
-            </div>
-            {/* 225 deg (Top-Left) */}
-            <div className="absolute w-12 h-12 bg-fd-card rounded-2xl border shadow-md flex items-center justify-center" style={{ top: 62, left: 62, transform: 'translate(-50%, -50%)', zIndex: 1 }}>
-              <PythonLogo className="size-7 text-[#3776AB]" />
-            </div>
-            {/* 270 deg (Top) */}
-            <div className="absolute w-12 h-12 bg-fd-card rounded-2xl border shadow-md flex items-center justify-center" style={{ top: 30, left: 140, transform: 'translate(-50%, -50%)', zIndex: 1 }}>
-              <DockerLogo className="size-7 text-[#2496ED]" />
-            </div>
-            {/* 315 deg (Top-Right) */}
-            <div className="absolute w-12 h-12 bg-fd-card rounded-2xl border shadow-md flex items-center justify-center" style={{ top: 62, left: 218, transform: 'translate(-50%, -50%)', zIndex: 1 }}>
-              <VercelLogo className="size-7 text-fd-foreground" />
-            </div>
+          </div>
+
+          <h2 className="font-jakarta text-4xl sm:text-5xl lg:text-[54px] font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50 leading-tight">
+            More about us
+          </h2>
+
+          <div className="space-y-6 max-w-2xl">
+            <p className="font-jakarta text-base sm:text-lg lg:text-xl font-medium text-neutral-800 dark:text-neutral-200 leading-relaxed">
+              At WebbHeads, we build functional technologies that help businesses optimize time and deliver exceptional user experiences.
+            </p>
+            <p className="font-jakarta text-sm sm:text-base lg:text-[17px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
+              By blending creativity, technology, and AI innovation, we craft digital solutions that drive real impact — from smart automation to high-converting websites and user-friendly apps that help brands grow smarter and faster.
+            </p>
           </div>
         </div>
       </div>
-    </>
+
+      {/* Row 2: About summary and Vision/Mission/Values timeline */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pt-16 md:pt-24 border-t border-neutral-100 dark:border-neutral-900">
+        {/* Left Sub-column (About summary & button) */}
+        <div className="lg:col-span-5 space-y-6 flex flex-col justify-between">
+          <div className="space-y-4">
+            <h3 className="font-jakarta text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-neutral-900 dark:text-neutral-50 leading-none">
+              About
+            </h3>
+            <p className="font-jakarta text-base sm:text-lg lg:text-xl text-neutral-500 dark:text-neutral-400 leading-relaxed max-w-xl">
+              At WebbHeads, our mission and vision guide everything we build — helping businesses embrace the future with smarter, faster, and more human-centered digital solutions.
+            </p>
+          </div>
+          <div className="pt-4">
+            <a
+              href="https://github.com/theshubhamgundu"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="relative inline-flex items-center justify-center px-8 py-3.5 rounded-xl border-2 border-neutral-900 dark:border-neutral-100 bg-white dark:bg-neutral-950 font-jakarta text-sm font-bold text-neutral-900 dark:text-neutral-50 transition-all duration-200 active:translate-x-[2px] active:translate-y-[2px] shadow-[5px_5px_0px_0px_#311081] dark:shadow-[5px_5px_0px_0px_#a855f7] hover:-translate-x-[0.5px] hover:-translate-y-[0.5px]"
+            >
+              More About Founder
+            </a>
+          </div>
+        </div>
+
+        {/* Right Sub-column (Vision, Mission, Values Timeline) */}
+        <div className="lg:col-span-7 relative pl-12 flex flex-col gap-10">
+          {/* Thin vertical connector line */}
+          <div className="absolute left-[23px] top-[16px] bottom-[16px] w-[2px] bg-neutral-200 dark:bg-neutral-800" />
+
+          {/* Vision Node */}
+          <div className="relative space-y-2">
+            <div className="absolute left-[12px] top-[4px] size-6 rounded-full border-2 border-neutral-800 dark:border-neutral-200 bg-[#e0f2fe] dark:bg-sky-950 shadow-sm" />
+            <h4 className="font-jakarta text-lg sm:text-xl lg:text-2xl font-bold text-neutral-900 dark:text-neutral-50 leading-none">
+              Vision
+            </h4>
+            <p className="font-jakarta text-sm sm:text-base lg:text-[17px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
+              Transforming Businesses Digitally.
+            </p>
+          </div>
+
+          {/* Mission Node */}
+          <div className="relative space-y-2">
+            <div className="absolute left-[12px] top-[4px] size-6 rounded-full border-2 border-neutral-800 dark:border-neutral-200 bg-[#f3e8ff] dark:bg-purple-950 shadow-sm" />
+            <h4 className="font-jakarta text-lg sm:text-xl lg:text-2xl font-bold text-neutral-900 dark:text-neutral-50 leading-none">
+              Mission
+            </h4>
+            <p className="font-jakarta text-sm sm:text-base lg:text-[17px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
+              Helping brands build professional, high-performing digital identities through technology and automation.
+            </p>
+          </div>
+
+          {/* Values Node */}
+          <div className="relative space-y-2">
+            <div className="absolute left-[12px] top-[4px] size-6 rounded-full border-2 border-neutral-800 dark:border-neutral-200 bg-[#dcfce7] dark:bg-emerald-950 shadow-sm" />
+            <h4 className="font-jakarta text-lg sm:text-xl lg:text-2xl font-bold text-neutral-900 dark:text-neutral-50 leading-none">
+              Values
+            </h4>
+            <p className="font-jakarta text-sm sm:text-base lg:text-[17px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
+              Creativity, innovation, and integrity guide our every move — ensuring each project is built with purpose, precision, and a passion for progress.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -564,85 +567,6 @@ void discoverLocalServices() async {
   );
 }
 
-const feedback = [
-  {
-    avatar: 'https://avatars.githubusercontent.com/u/124599',
-    user: 'Fest Coordinator',
-    role: 'Vignan College Dean',
-    message: `Shubham single-handedly built our ticketing system. The QR code check-in cleared crowds instantly.`,
-  },
-  {
-    avatar: 'https://avatars.githubusercontent.com/u/35677084',
-    user: 'Freelance Client',
-    role: 'Full-Stack Product Owner',
-    message: `Delivered a clean, robust mobile app for our business on-time. Gained great student industry exposure.`,
-  },
-  {
-    user: 'Hackathon Judge',
-    avatar: 'https://avatars.githubusercontent.com/u/38025074',
-    role: 'Inter-College Jury',
-    message: 'The JanAI multilingual voice assistant showed excellent innovation and practical civic application.',
-  },
-  {
-    avatar: 'https://avatars.githubusercontent.com/u/10645823',
-    user: 'Aid-X Club',
-    role: 'Tech Community Lead',
-    message: `Shubham grew the club to 200+ members, leading workshops on Web Dev and GenAI with amazing energy.`,
-  },
-];
-
-function Feedback() {
-  return (
-    <>
-      <div className={cn(cardVariants())}>
-        <h3 className={cn(headingVariants({ variant: 'h3', className: 'mb-6' }))}>
-          3× Hackathon Winner
-        </h3>
-        <p className="mb-6">
-          Won top titles including Best Innovation across multiple inter-college hackathons, ideathons, and coding competitions, designing functional prototypes at speed.
-        </p>
-        <a href="https://github.com/theshubhamgundu" target="_blank" rel="noreferrer noopener" className={cn(buttonVariants())}>
-          View Work
-        </a>
-      </div>
-      <div
-        className={cn(
-          cardVariants({
-            variant: 'secondary',
-            className: 'relative p-0',
-          }),
-        )}
-      >
-        <div className="absolute inset-0 z-2 inset-shadow-[0_10px_60px] inset-shadow-brand-secondary rounded-2xl" />
-        <Marquee className="p-8">
-          {feedback.map((item) => (
-            <div
-              key={item.user}
-              className="flex flex-col rounded-xl border bg-fd-card text-landing-foreground p-4 shadow-lg w-[320px]"
-            >
-              <p className="text-sm whitespace-pre-wrap">{item.message}</p>
-
-              <div className="mt-auto flex flex-row items-center gap-2 pt-4">
-                <Image
-                  src={item.avatar}
-                  alt="avatar"
-                  width="32"
-                  height="32"
-                  unoptimized
-                  className="size-8 rounded-full"
-                />
-                <div>
-                  <p className="text-sm font-medium">{item.user}</p>
-                  <p className="text-xs text-fd-muted-foreground">{item.role}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </Marquee>
-      </div>
-    </>
-  );
-}
 
 function ForEngineers() {
   return (

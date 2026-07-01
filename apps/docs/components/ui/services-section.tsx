@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/cn';
 import { Marquee } from '@/app/(home)/marquee';
@@ -31,8 +31,79 @@ const StarIcon = () => (
   </svg>
 );
 
+const ArrowDownRightIcon = () => (
+  <div className="size-5 rounded-full bg-[#9d174d] dark:bg-pink-600 flex items-center justify-center mr-1.5 shrink-0">
+    <svg className="size-2.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="7" y1="7" x2="17" y2="17" />
+      <polyline points="17 7 17 17 7 17" />
+    </svg>
+  </div>
+);
+
+const ArrowUpRightIcon = () => (
+  <div className="size-5 rounded-full bg-[#9d174d] dark:bg-pink-600 flex items-center justify-center mr-1.5 shrink-0">
+    <svg className="size-2.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="7" y1="17" x2="17" y2="7" />
+      <polyline points="7 7 17 7 17 17" />
+    </svg>
+  </div>
+);
+
 export const ServicesSection = ({ className }: ServicesSectionProps) => {
   const [uiuxState, setUiuxState] = useState<'before' | 'after'>('after');
+  const [buildKey, setBuildKey] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setUiuxState((prev) => (prev === 'before' ? 'after' : 'before'));
+    }, 3500); // Transition automatically every 3.5 seconds
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setBuildKey((prev) => prev + 1);
+    }, 6000); // Reset building animations loop every 6 seconds
+    return () => clearInterval(timer);
+  }, []);
+
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 8, scale: 0.96 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        delay: i * 0.35,
+        duration: 0.4,
+        ease: "easeOut"
+      }
+    })
+  };
+
+  const metrics = [
+    {
+      name: "Growth",
+      beforeText: "Growth +10%",
+      afterText: "Growth +250%",
+      beforeX: "45%",
+      afterX: "80%",
+    },
+    {
+      name: "Efficiency",
+      beforeText: "Efficiency -50%",
+      afterText: "Efficiency +200%",
+      beforeX: "30%",
+      afterX: "58%",
+    },
+    {
+      name: "Cost",
+      beforeText: "Cost +100%",
+      afterText: "Cost -100%",
+      beforeX: "60%",
+      afterX: "35%",
+    }
+  ];
   
   // Spoke endpoints relative to center (50%, 50%)
   const spokes = [
@@ -45,13 +116,23 @@ export const ServicesSection = ({ className }: ServicesSectionProps) => {
   ];
 
   return (
-    <section className={cn("col-span-full mt-16 md:mt-24 px-4 w-full select-none max-w-[1200px] mx-auto space-y-6", className)}>
+    <section className={cn("col-span-full mt-16 md:mt-24 px-4 w-full select-none max-w-[1200px] mx-auto space-y-12", className)}>
       
+      {/* Section Header */}
+      <div className="text-center max-w-[800px] mx-auto space-y-3 mb-4">
+        <h2 className="text-3xl sm:text-4xl font-jakarta font-bold tracking-tight text-neutral-900 dark:text-neutral-50">
+          Services & Expertise
+        </h2>
+        <p className="text-base sm:text-lg text-neutral-500 dark:text-neutral-400 font-jakarta leading-relaxed max-w-[650px] mx-auto">
+          Turning complex business requirements into clean, automated, and high-performing systems.
+        </p>
+      </div>
+
       {/* 2-Column Top Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
         
         {/* Card 1: AI Automation Services */}
-        <div className="bg-gradient-to-b from-purple-50/30 to-white/50 dark:from-neutral-900/50 dark:to-neutral-950/50 border border-purple-100/40 dark:border-neutral-800/80 rounded-3xl p-8 shadow-xl flex flex-col justify-between gap-8">
+        <div className="bg-white dark:bg-neutral-950 bg-gradient-to-b from-indigo-50/70 to-white dark:from-indigo-950/30 dark:to-neutral-950 border border-indigo-100/80 dark:border-indigo-900/30 rounded-3xl p-8 shadow-xl flex flex-col justify-between gap-8">
           <div className="space-y-6">
             <h2 className="text-2xl sm:text-3xl font-jakarta font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">
               AI Automation Services
@@ -110,7 +191,7 @@ export const ServicesSection = ({ className }: ServicesSectionProps) => {
         </div>
 
         {/* Card 2: Workflow Automation & Optimization (Hub & Spoke Animation) */}
-        <div className="bg-gradient-to-b from-purple-50/30 to-white/50 dark:from-neutral-900/50 dark:to-neutral-950/50 border border-purple-100/40 dark:border-neutral-800/80 rounded-3xl p-8 shadow-xl flex flex-col justify-between gap-6 min-h-[460px]">
+        <div className="bg-white dark:bg-neutral-950 bg-gradient-to-b from-emerald-50/70 to-white dark:from-emerald-950/20 dark:to-neutral-950 border border-emerald-100/80 dark:border-emerald-900/30 rounded-3xl p-8 shadow-xl flex flex-col justify-between gap-6 min-h-[460px]">
           <div className="space-y-2">
             <h3 className="text-2xl font-jakarta font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">
               Workflow Automation & Optimization
@@ -123,46 +204,48 @@ export const ServicesSection = ({ className }: ServicesSectionProps) => {
           {/* Animation Viewport */}
           <div className="relative w-full h-[280px] rounded-2xl bg-neutral-50/30 dark:bg-neutral-900/30 border border-neutral-100/70 dark:border-neutral-800/60 overflow-hidden flex items-center justify-center">
             
-            {/* SVG Connecting Lines */}
+            {/* SVG Connecting Lines with Continuous Glowing Flow Animation */}
             <svg className="absolute inset-0 size-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+              <style>{`
+                @keyframes svgFlow {
+                  from { stroke-dashoffset: 24; }
+                  to { stroke-dashoffset: 0; }
+                }
+              `}</style>
+              {/* Background solid connecting tracks */}
               {spokes.map((spoke, idx) => (
                 <line 
-                  key={idx}
+                  key={`bg-${idx}`}
                   x1="50%" 
                   y1="50%" 
                   x2={`calc(50% + ${spoke.x}px)`} 
                   y2={`calc(50% + ${spoke.y}px)`} 
-                  className="stroke-neutral-200 dark:stroke-neutral-800" 
+                  className="stroke-neutral-200/80 dark:stroke-neutral-800/90" 
                   strokeWidth="2" 
-                  strokeDasharray="4 4"
+                />
+              ))}
+              {/* Overlay animated flowing glow streams */}
+              {spokes.map((spoke, idx) => (
+                <line 
+                  key={`flow-${idx}`}
+                  x1="50%" 
+                  y1="50%" 
+                  x2={`calc(50% + ${spoke.x}px)`} 
+                  y2={`calc(50% + ${spoke.y}px)`} 
+                  className="stroke-indigo-500 dark:stroke-purple-400" 
+                  strokeWidth="2" 
+                  strokeDasharray="6 18"
+                  style={{
+                    animation: 'svgFlow 1s linear infinite',
+                    filter: 'drop-shadow(0px 0px 2px rgba(99, 102, 241, 0.5))'
+                  }}
                 />
               ))}
             </svg>
 
-            {/* Traveling Pulse dots */}
-            {spokes.map((spoke, idx) => (
-              <motion.div
-                key={`pulse-${idx}`}
-                animate={{
-                  x: [0, spoke.x],
-                  y: [0, spoke.y],
-                  opacity: [0, 1, 0]
-                }}
-                transition={{
-                  duration: 2.2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: idx * 0.35
-                }}
-                className="absolute size-2 rounded-full bg-indigo-500/80 shadow-[0_0_8px_#6366f1] pointer-events-none"
-              />
-            ))}
-
-            {/* Hub: Center ChatGPT Logo */}
+            {/* Hub: Center Custom S Logo */}
             <div className="absolute z-10 size-14 rounded-2xl bg-white dark:bg-neutral-800 border border-neutral-100 dark:border-neutral-700 flex items-center justify-center shadow-lg">
-              <svg className="size-8 text-neutral-800 dark:text-neutral-100 animate-spin-slow" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M21.4 9.8c.5-1.5.3-3.2-.5-4.5-1.2-2-3.6-3.1-6-2.6-1.3-1.4-3.3-2-5.2-1.6C6.1 1.7 4.6 3.1 4 5 2.5 5.3 1.2 6.3.4 7.6c-1.2 2-.9 4.6.6 6.3-.5 1.5-.3 3.2.5 4.5 1.2 2 3.6 3.1 6 2.6 1.3 1.4 3.3 2 5.2 1.6 3.5-.6 5-2 5.6-3.9 1.5-.3 2.7-1.3 3.5-2.6 1.2-2 .9-4.6-.6-6.3zm-9.4 11.2c-1-.1-2-.5-2.7-1.1l.1-.1 4.2-2.4c.2-.1.3-.3.3-.6v-5.9l1.8 1c.1 0 .2.1.2.2v4.9c0 2.1-1.7 3.9-3.9 4zm-8.6-3.7c-.5-.8-.7-1.7-.5-2.6l.1.1 4.2 2.4c.2.1.5.1.7 0l5.1-2.9v2c0 .1 0 .2-.1.2l-4.3 2.5c-1.8 1.1-4.1.5-5.2-1.7zm-1-7.4c.1-.9.6-1.7 1.3-2.3v5.1c0 .2.1.5.4.6l5.1 2.9-1.8 1c-.1.1-.2.1-.2 0L5.3 14c-1.8-1-2.4-3.3-1.9-5.3zm15.6 1.9l-5.1-2.9 1.8-1c.1 0 .2 0 .2.1l4.3 2.5c1.8 1 2.4 3.3 1.9 5.3-.5.8-1.2 1.5-2.1 1.9V12.1c.1-.2-.1-.5-.4-.6zm1.8-2.7l-.1-.1-4.2-2.4c-.2-.1-.5-.1-.7 0l-5.1 2.9V6.1c0-.1 0-.2.1-.2l4.3-2.5c1.8-1.1 4.1-.5 5.2 1.7.5.8.7 1.7.5 2.6zM7.3 11.3l-1.8-1c-.1 0-.2-.1-.2-.2V5.2c0-2.1 1.7-3.9 3.9-4 .9.1 1.8.4 2.5 1l-.1.1-4.2 2.4c-.2.1-.3.3-.3.6v5zm1.9-1.5l1.4-1.4 1.4 1.4v2l-1.4 1.4-1.4-1.4z"/>
-              </svg>
+              <img src="/s.png" alt="S Logo" className="size-9 object-contain" />
             </div>
 
             {/* Spokes: Outer Connected Logos */}
@@ -185,137 +268,100 @@ export const ServicesSection = ({ className }: ServicesSectionProps) => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
         
         {/* Card 3: UI/UX Design (Interactive Before/After Toggle) */}
-        <div className="bg-gradient-to-b from-purple-50/30 to-white/50 dark:from-neutral-900/50 dark:to-neutral-950/50 border border-purple-100/40 dark:border-neutral-800/80 rounded-3xl p-8 shadow-xl flex flex-col justify-between gap-6 min-h-[460px]">
+        <div className="bg-white dark:bg-neutral-950 bg-gradient-to-b from-pink-50/70 to-white dark:from-pink-950/20 dark:to-neutral-950 border border-pink-100/80 dark:border-pink-900/30 rounded-3xl p-8 shadow-xl flex flex-col justify-between gap-6 min-h-[460px]">
           <div className="space-y-2">
             <h3 className="text-2xl font-jakarta font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">
               UI/UX Design
             </h3>
             <p className="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
-              Deliver seamless user journeys with designs that convert, delight, and scale.
+              Deliver seamless user journeys with designs that convert and delight.
             </p>
           </div>
 
           {/* Animation Viewport */}
-          <div className="relative w-full h-[280px] rounded-2xl bg-neutral-50/30 dark:bg-neutral-900/30 border border-neutral-100/70 dark:border-neutral-800/60 overflow-hidden flex flex-col items-center justify-between p-6">
+          <div className="relative w-full h-[280px] rounded-2xl bg-neutral-50/30 dark:bg-neutral-900/30 border border-neutral-100/70 dark:border-neutral-800/60 overflow-hidden flex flex-col justify-between p-6">
             
-            {/* Toggle switch */}
-            <div className="relative flex bg-neutral-100 dark:bg-neutral-800 p-1 rounded-full w-48 shadow-inner z-10">
-              <motion.div
-                className="absolute inset-y-1 bg-white dark:bg-neutral-700 rounded-full shadow-md z-0"
-                layoutId="uiux-active-toggle"
-                animate={{
-                  x: uiuxState === 'before' ? 0 : 88,
-                  width: 90
-                }}
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              />
-              <button 
-                onClick={() => setUiuxState('before')}
-                className={cn(
-                  "relative z-10 flex-1 py-1 text-xs font-semibold rounded-full transition-colors font-jakarta",
-                  uiuxState === 'before' ? "text-neutral-900 dark:text-white" : "text-neutral-400"
+            {/* Top Right Badge (Before / After Cross-fade) */}
+            <div className="absolute top-6 right-6 h-8 z-20">
+              <AnimatePresence mode="popLayout">
+                {uiuxState === 'before' ? (
+                  <motion.div
+                    key="before-badge"
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.4 }}
+                    className="flex items-center bg-[#fce7f3] dark:bg-pink-950/30 text-[#9d174d] dark:text-pink-300 px-3.5 py-1.5 rounded-full text-xs font-bold font-jakarta shadow-sm border border-pink-200/20"
+                  >
+                    <ArrowDownRightIcon />
+                    Before
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="after-badge"
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.4 }}
+                    className="flex items-center bg-[#fce7f3] dark:bg-pink-950/30 text-[#9d174d] dark:text-pink-300 px-3.5 py-1.5 rounded-full text-xs font-bold font-jakarta shadow-sm border border-pink-200/20"
+                  >
+                    <ArrowUpRightIcon />
+                    After
+                  </motion.div>
                 )}
-              >
-                Before
-              </button>
-              <button 
-                onClick={() => setUiuxState('after')}
-                className={cn(
-                  "relative z-10 flex-1 py-1 text-xs font-semibold rounded-full transition-colors font-jakarta",
-                  uiuxState === 'after' ? "text-neutral-900 dark:text-white" : "text-neutral-400"
-                )}
-              >
-                After
-              </button>
+              </AnimatePresence>
             </div>
 
-            {/* Dynamic Interactive Metrics layout */}
-            <div className="relative w-full flex-1 flex items-end justify-center gap-6 pt-4">
-              
-              {/* Bar 1: Growth */}
-              <div className="flex flex-col items-center gap-2 relative w-16">
-                <motion.div 
-                  initial={{ height: "30px" }}
-                  animate={{
-                    height: uiuxState === 'after' ? "158px" : "30px",
-                  }}
-                  transition={{ type: "spring", stiffness: 100, damping: 15 }}
-                  className="w-4 rounded-t-lg bg-gradient-to-t from-violet-600 to-indigo-500 shadow-md"
-                />
-                
-                {/* Floating pill badge */}
-                <motion.div 
-                  animate={{
-                    y: uiuxState === 'after' ? -170 : -42
-                  }}
-                  transition={{ type: "spring", stiffness: 100, damping: 15 }}
-                  className="absolute whitespace-nowrap bg-white dark:bg-neutral-800 border border-neutral-100 dark:border-neutral-700 shadow-lg px-2.5 py-1 rounded-lg text-[10px] font-bold font-jakarta text-neutral-800 dark:text-neutral-100"
-                >
-                  {uiuxState === 'after' ? "Growth +250%" : "Growth +10%"}
-                </motion.div>
+            {/* Layout with Left Vertical Accent Lines and Right Horizontal Sliders */}
+            <div className="w-full flex items-center gap-4 mt-8 mb-4">
+              {/* Left Vertical Lines */}
+              <div className="flex items-center gap-1.5 shrink-0 pl-1">
+                <div className="w-[2px] h-36 bg-gradient-to-b from-transparent via-purple-300/60 to-transparent dark:via-purple-500/25 rounded-full" />
+                <div className="w-[3px] h-48 bg-gradient-to-b from-transparent via-purple-400/70 to-transparent dark:via-purple-500/40 rounded-full" />
+                <div className="w-[2px] h-40 bg-gradient-to-b from-transparent via-purple-300/60 to-transparent dark:via-purple-500/25 rounded-full" />
               </div>
 
-              {/* Bar 2: Efficiency */}
-              <div className="flex flex-col items-center gap-2 relative w-16">
-                <motion.div 
-                  initial={{ height: "50px" }}
-                  animate={{
-                    height: uiuxState === 'after' ? "181px" : "50px",
-                  }}
-                  transition={{ type: "spring", stiffness: 100, damping: 15 }}
-                  className="w-4 rounded-t-lg bg-gradient-to-t from-violet-600 to-indigo-500 shadow-md"
-                />
-                
-                {/* Floating pill badge */}
-                <motion.div 
-                  animate={{
-                    y: uiuxState === 'after' ? -193 : -62
-                  }}
-                  transition={{ type: "spring", stiffness: 100, damping: 15 }}
-                  className="absolute whitespace-nowrap bg-white dark:bg-neutral-800 border border-neutral-100 dark:border-neutral-700 shadow-lg px-2.5 py-1 rounded-lg text-[10px] font-bold font-jakarta text-neutral-800 dark:text-neutral-100"
-                >
-                  {uiuxState === 'after' ? "Efficiency +200%" : "Efficiency +15%"}
-                </motion.div>
+              {/* Sliders Container */}
+              <div className="flex-1 flex flex-col gap-3 relative select-none">
+                {metrics.map((metric, idx) => (
+                  <div 
+                    key={idx}
+                    className="relative w-full h-[52px] border border-purple-200/50 dark:border-neutral-800/60 rounded-2xl bg-purple-50/15 dark:bg-neutral-900/30 flex items-center px-1"
+                  >
+                    <motion.div
+                      animate={{
+                        left: uiuxState === 'after' ? metric.afterX : metric.beforeX
+                      }}
+                      transition={{ type: "spring", stiffness: 80, damping: 15 }}
+                      style={{
+                        backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.22) 1px, transparent 1px), linear-gradient(135deg, #2e1065 0%, #1e1b4b 100%)',
+                        backgroundSize: '6px 6px, 100% 100%',
+                      }}
+                      className="absolute text-sm font-semibold font-jakarta text-purple-100 h-10 px-6 rounded-[14px] shadow-lg border border-purple-500/20 whitespace-nowrap flex items-center justify-center transform -translate-y-1/2 top-1/2 -translate-x-1/2"
+                    >
+                      {uiuxState === 'after' ? metric.afterText : metric.beforeText}
+                    </motion.div>
+                  </div>
+                ))}
               </div>
+            </div>
 
-              {/* Bar 3: Cost */}
-              <div className="flex flex-col items-center gap-2 relative w-16">
-                <motion.div 
-                  initial={{ height: "190px" }}
-                  animate={{
-                    height: uiuxState === 'after' ? "10px" : "190px",
-                  }}
-                  transition={{ type: "spring", stiffness: 100, damping: 15 }}
-                  className={cn(
-                    "w-4 rounded-t-lg shadow-md transition-colors duration-300",
-                    uiuxState === 'after' ? "bg-emerald-500" : "bg-red-500"
-                  )}
-                />
-                
-                {/* Floating pill badge */}
-                <motion.div 
-                  animate={{
-                    y: uiuxState === 'after' ? -22 : -202
-                  }}
-                  transition={{ type: "spring", stiffness: 100, damping: 15 }}
-                  className="absolute whitespace-nowrap bg-white dark:bg-neutral-800 border border-neutral-100 dark:border-neutral-700 shadow-lg px-2.5 py-1 rounded-lg text-[10px] font-bold font-jakarta text-neutral-800 dark:text-neutral-100"
-                >
-                  {uiuxState === 'after' ? "Cost -100%" : "Cost +150%"}
-                </motion.div>
-              </div>
-
+            {/* Bottom Skeleton Decor */}
+            <div className="w-full space-y-2.5 mt-auto">
+              <div className="h-2 w-[90%] bg-purple-100/50 dark:bg-neutral-800 rounded-full" />
+              <div className="h-2 w-[75%] bg-purple-100/50 dark:bg-neutral-800 rounded-full" />
             </div>
           </div>
         </div>
 
-        {/* Card 4: Web and App Development (3D-like Folder Animation) */}
-        <div className="bg-gradient-to-b from-purple-50/30 to-white/50 dark:from-neutral-900/50 dark:to-neutral-950/50 border border-purple-100/40 dark:border-neutral-800/80 rounded-3xl p-8 shadow-xl flex flex-col justify-between gap-6 min-h-[460px]">
+        {/* Card 4: Product & System Development */}
+        <div className="bg-white dark:bg-neutral-950 bg-gradient-to-b from-blue-50/70 to-white dark:from-blue-950/30 dark:to-neutral-950 border border-blue-100/80 dark:border-blue-900/30 rounded-3xl p-8 shadow-xl flex flex-col justify-between gap-6 min-h-[460px]">
           <div className="space-y-2">
             <h3 className="text-2xl font-jakarta font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">
-              Web and App Development
+              Product & System Development
             </h3>
             <p className="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
-              From concept to launch — we create intelligent, high-performing web and mobile apps.
+              Bringing custom digital products to life: high-performance landing pages, e-commerce systems, custom CRMs, AI automation workflows, and MVPs.
             </p>
           </div>
 
@@ -324,37 +370,16 @@ export const ServicesSection = ({ className }: ServicesSectionProps) => {
             whileHover="hover"
             className="relative w-full h-[280px] rounded-2xl bg-neutral-50/30 dark:bg-neutral-900/30 border border-neutral-100/70 dark:border-neutral-800/60 overflow-hidden flex flex-col items-center justify-center p-6"
           >
-            
-            {/* Layered Folder Graphic */}
-            <div className="relative w-48 h-36 flex items-end">
-              
-              {/* Back Tab of Folder */}
-              <div className="absolute inset-x-0 bottom-0 h-32 bg-neutral-200/80 dark:bg-neutral-800/80 rounded-2xl border border-neutral-300/40 dark:border-neutral-700/40 shadow-inner z-0 flex items-start p-4">
-                <div className="w-10 h-3 bg-neutral-300 dark:bg-neutral-700 rounded-t-md absolute left-4 -top-3" />
-              </div>
-
-              {/* Shifting files/sheets inside (Slide up on parent hover) */}
-              <motion.div 
-                className="absolute inset-x-4 bottom-2 h-28 bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 rounded-xl shadow-md z-10 flex flex-col p-3 gap-2 overflow-hidden"
-                variants={{
-                  hover: { y: -24 }
-                }}
-                transition={{ type: "spring", stiffness: 200, damping: 20 }}
-              >
-                <div className="flex items-center gap-1.5 border-b border-neutral-100 dark:border-neutral-800 pb-2">
-                  <div className="size-2.5 rounded-full bg-red-400" />
-                  <div className="size-2.5 rounded-full bg-yellow-400" />
-                  <div className="size-2.5 rounded-full bg-green-400" />
-                </div>
-                <div className="font-mono text-[9px] text-neutral-400 dark:text-neutral-500 space-y-1 select-none">
-                  <p className="text-violet-500">const app = () =&gt; &#123;</p>
-                  <p className="pl-3">return &lt;Portfolio /&gt;;</p>
-                  <p className="text-violet-500">&#125;;</p>
-                </div>
-              </motion.div>
-
-              {/* Front of Folder with Diagonal cut design */}
-              <div className="absolute inset-x-0 bottom-0 h-24 bg-neutral-100 dark:bg-neutral-700 rounded-2xl border border-neutral-200/50 dark:border-neutral-600/50 shadow-md z-20" />
+            {/* Video Mockup Player */}
+            <div className="relative w-full h-[160px] rounded-xl overflow-hidden border border-purple-100/40 dark:border-neutral-800/80 flex items-center justify-center">
+              <video 
+                src="/web-app-dev.mp4" 
+                autoPlay 
+                loop 
+                muted 
+                playsInline 
+                className="w-full h-full object-cover mix-blend-multiply dark:mix-blend-screen invert dark:invert-0"
+              />
             </div>
 
             {/* Technology tags marquee running below */}
