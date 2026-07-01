@@ -30,6 +30,8 @@ import {
   Feedback,
 } from '@/app/(home)/page.client';
 import { PrismaHero } from '@/components/ui/prisma-hero';
+import { CaseStudies } from '@/components/case-studies';
+import { Arena } from '@/components/arena';
 import { Component as Background } from '@/components/ui/background-snippets';
 import { ScrollRevealText } from '@/components/ui/scroll-reveal-text';
 import { ServicesSection } from '@/components/ui/services-section';
@@ -225,6 +227,8 @@ export default function Page() {
 
         <Feedback />
         <Aesthetics />
+        <CaseStudies />
+        <Arena />
 
         </div>
       </div>
@@ -331,7 +335,7 @@ function Story() {
 
 function Aesthetics() {
   return (
-    <div className="col-span-full py-16 md:py-24 border-t border-neutral-100 dark:border-neutral-900 mt-16 md:mt-24 space-y-20 md:space-y-28">
+    <div className="col-span-full p-8 md:p-12 rounded-3xl border border-neutral-200/60 dark:border-neutral-800/30 bg-gradient-to-br from-sky-100/30 via-purple-100/20 to-emerald-100/30 dark:from-sky-950/20 dark:via-purple-950/10 dark:to-emerald-950/20 shadow-sm mt-16 md:mt-24 space-y-20 md:space-y-28">
       
       {/* Row 1: Team Photo and More About Us */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
@@ -340,23 +344,24 @@ function Aesthetics() {
           <div className="relative size-[310px] sm:size-[380px] rounded-full border border-neutral-200 dark:border-neutral-800 overflow-hidden shadow-xl bg-neutral-100 dark:bg-neutral-900">
             <Image
               src={ShubsssDevImage}
-              alt="WebbHeads Team"
+              alt="Shubham Gundu"
               className="size-full object-cover object-top"
             />
           </div>
           {/* Overlapping Stamp Badge */}
-          <div className="absolute -top-3 right-6 sm:-top-4 sm:right-8 size-28 rounded-full bg-white dark:bg-neutral-950 border border-neutral-900 dark:border-neutral-100 shadow-md flex items-center justify-center">
+          <div className="absolute -top-3 right-6 sm:-top-4 sm:right-8 size-28 rounded-full bg-[#e0f2fe] dark:bg-sky-950 border border-neutral-900 dark:border-neutral-100 shadow-md flex items-center justify-center">
             <svg className="absolute inset-0 size-full animate-[spin_20s_linear_infinite]" viewBox="0 0 100 100">
               <path id="circlePath" d="M 50, 50 m -40, 0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0" fill="none" />
-              <text className="text-[5px] font-extrabold fill-neutral-800 dark:fill-neutral-200 uppercase tracking-[0.14em] font-jakarta">
+              <text className="text-[7.5px] font-extrabold fill-neutral-800 dark:fill-neutral-200 uppercase tracking-[0.14em] font-jakarta">
                 <textPath href="#circlePath" startOffset="0%">
-                  leaders • driven by innovation •
+                  shubham gundu ✦ software developer ✦
                 </textPath>
               </text>
             </svg>
-            {/* Center Arrow SVG to prevent Windows emoji rendering bug */}
+            {/* Curved hand-drawn style arrow */}
             <svg className="size-6 text-neutral-800 dark:text-neutral-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18C9 13 13 9 18 6" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6h6v6" />
             </svg>
           </div>
         </div>
@@ -364,12 +369,31 @@ function Aesthetics() {
         {/* Right Side: Bio and Details */}
         <div className="lg:col-span-7 flex flex-col justify-center space-y-8 relative pr-8 sm:pr-16 lg:pr-24">
           {/* Floating Hearts Icon - hand drawn mockup style */}
-          <div className="absolute right-0 top-0 text-neutral-800 dark:text-neutral-200 select-none opacity-80">
-            <svg className="size-20" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+          <div className="absolute right-0 top-0 select-none">
+            <svg className="size-24 text-black dark:text-neutral-200" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+              <defs>
+                {/* Gradients for the hand-drawn hearts */}
+                <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#ffccd5" stopOpacity="0.85" />
+                  <stop offset="100%" stopColor="#fff5f6" stopOpacity="0.4" />
+                </linearGradient>
+              </defs>
               {/* Large Heart - left */}
-              <path d="M50 85 C20 60 10 40 25 25 C40 10 50 30 50 30 C50 30 60 10 75 25 C90 40 80 60 50 85 Z" transform="translate(10, 10) scale(0.48) rotate(-15 50 50)" />
+              <g className="animate-[float_5s_ease-in-out_infinite] origin-[30px_50px]">
+                <path
+                  d="M50 85 C20 60 10 40 25 25 C40 10 50 30 50 30 C50 30 60 10 75 25 C90 40 80 60 50 85 Z"
+                  transform="translate(10, 10) scale(0.48) rotate(-15 50 50)"
+                  fill="url(#heartGrad)"
+                />
+              </g>
               {/* Small Heart - right */}
-              <path d="M50 85 C20 60 10 40 25 25 C40 10 50 30 50 30 C50 30 60 10 75 25 C90 40 80 60 50 85 Z" transform="translate(42, 38) scale(0.3) rotate(15 50 50)" />
+              <g className="animate-[float-delayed_6s_ease-in-out_infinite] origin-[60px_60px]">
+                <path
+                  d="M50 85 C20 60 10 40 25 25 C40 10 50 30 50 30 C50 30 60 10 75 25 C90 40 80 60 50 85 Z"
+                  transform="translate(42, 38) scale(0.3) rotate(15 50 50)"
+                  fill="url(#heartGrad)"
+                />
+              </g>
             </svg>
           </div>
 
@@ -381,15 +405,15 @@ function Aesthetics() {
           </div>
 
           <h2 className="font-jakarta text-4xl sm:text-5xl lg:text-[54px] font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50 leading-tight">
-            More about us
+            More about me
           </h2>
 
           <div className="space-y-6 max-w-2xl">
             <p className="font-jakarta text-base sm:text-lg lg:text-xl font-medium text-neutral-800 dark:text-neutral-200 leading-relaxed">
-              At WebbHeads, we build functional technologies that help businesses optimize time and deliver exceptional user experiences.
+              I build functional technologies that help businesses optimize time and deliver exceptional user experiences.
             </p>
             <p className="font-jakarta text-sm sm:text-base lg:text-[17px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
-              By blending creativity, technology, and AI innovation, we craft digital solutions that drive real impact — from smart automation to high-converting websites and user-friendly apps that help brands grow smarter and faster.
+              By blending creativity, technology, and AI innovation, I craft digital solutions that drive real impact — from smart automation to high-converting websites and user-friendly apps that help brands grow smarter and faster.
             </p>
           </div>
         </div>
@@ -404,18 +428,8 @@ function Aesthetics() {
               About
             </h3>
             <p className="font-jakarta text-base sm:text-lg lg:text-xl text-neutral-500 dark:text-neutral-400 leading-relaxed max-w-xl">
-              At WebbHeads, our mission and vision guide everything we build — helping businesses embrace the future with smarter, faster, and more human-centered digital solutions.
+              My mission and vision guide everything I build — helping businesses embrace the future with smarter, faster, and more human-centered digital solutions.
             </p>
-          </div>
-          <div className="pt-4">
-            <a
-              href="https://github.com/theshubhamgundu"
-              target="_blank"
-              rel="noreferrer noopener"
-              className="relative inline-flex items-center justify-center px-8 py-3.5 rounded-xl border-2 border-neutral-900 dark:border-neutral-100 bg-white dark:bg-neutral-950 font-jakarta text-sm font-bold text-neutral-900 dark:text-neutral-50 transition-all duration-200 active:translate-x-[2px] active:translate-y-[2px] shadow-[5px_5px_0px_0px_#311081] dark:shadow-[5px_5px_0px_0px_#a855f7] hover:-translate-x-[0.5px] hover:-translate-y-[0.5px]"
-            >
-              More About Founder
-            </a>
           </div>
         </div>
 
@@ -426,7 +440,7 @@ function Aesthetics() {
 
           {/* Vision Node */}
           <div className="relative space-y-2">
-            <div className="absolute left-[12px] top-[4px] size-6 rounded-full border-2 border-neutral-800 dark:border-neutral-200 bg-[#e0f2fe] dark:bg-sky-950 shadow-sm" />
+            <div className="absolute left-[-36px] top-[4px] size-6 rounded-full border-2 border-neutral-800 dark:border-neutral-200 bg-gradient-to-br from-[#e0f2fe] to-[#bae6fd] dark:from-sky-900 dark:to-sky-950 shadow-sm" />
             <h4 className="font-jakarta text-lg sm:text-xl lg:text-2xl font-bold text-neutral-900 dark:text-neutral-50 leading-none">
               Vision
             </h4>
@@ -437,7 +451,7 @@ function Aesthetics() {
 
           {/* Mission Node */}
           <div className="relative space-y-2">
-            <div className="absolute left-[12px] top-[4px] size-6 rounded-full border-2 border-neutral-800 dark:border-neutral-200 bg-[#f3e8ff] dark:bg-purple-950 shadow-sm" />
+            <div className="absolute left-[-36px] top-[4px] size-6 rounded-full border-2 border-neutral-800 dark:border-neutral-200 bg-gradient-to-br from-[#f3e8ff] to-[#e9d5ff] dark:from-purple-900 dark:to-purple-950 shadow-sm" />
             <h4 className="font-jakarta text-lg sm:text-xl lg:text-2xl font-bold text-neutral-900 dark:text-neutral-50 leading-none">
               Mission
             </h4>
@@ -448,7 +462,7 @@ function Aesthetics() {
 
           {/* Values Node */}
           <div className="relative space-y-2">
-            <div className="absolute left-[12px] top-[4px] size-6 rounded-full border-2 border-neutral-800 dark:border-neutral-200 bg-[#dcfce7] dark:bg-emerald-950 shadow-sm" />
+            <div className="absolute left-[-36px] top-[4px] size-6 rounded-full border-2 border-neutral-800 dark:border-neutral-200 bg-gradient-to-br from-[#dcfce7] to-[#bbf7d0] dark:from-emerald-900 dark:to-emerald-950 shadow-sm" />
             <h4 className="font-jakarta text-lg sm:text-xl lg:text-2xl font-bold text-neutral-900 dark:text-neutral-50 leading-none">
               Values
             </h4>

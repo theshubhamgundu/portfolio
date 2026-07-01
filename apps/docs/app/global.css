@@ -64,6 +64,24 @@
     }
   }
 
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  @keyframes float-delayed {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-9px);
+    }
+  }
+
   --animate-stroke: stroke 5s linear infinite;
 
   --color-gradient-radial: radial-gradient(circle, var(--tw-gradient-stops));
