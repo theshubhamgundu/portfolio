@@ -170,6 +170,11 @@ export function CaseStudies() {
     return () => el.removeEventListener("scroll", onScroll);
   }, [onScroll]);
 
+  const activeIndexRef = useRef(activeIndex);
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
+
   // Forward wheel events from anywhere in the section into the right-side
   // scroll-snap container so the user can scroll projects from either side.
   useEffect(() => {
@@ -178,13 +183,16 @@ export function CaseStudies() {
     if (!section || !snap) return;
 
     const handleWheel = (e: WheelEvent) => {
-      // Check if the scroll-snap container still has room to scroll
-      const atTop = snap.scrollTop <= 0;
-      const atBottom = snap.scrollTop + snap.clientHeight >= snap.scrollHeight - 1;
+      const isScrollDown = e.deltaY > 0;
+      const isScrollUp = e.deltaY < 0;
 
-      // If we're at the boundary and trying to scroll further past it,
-      // let the page scroll naturally (so users can leave the section).
-      if ((atTop && e.deltaY < 0) || (atBottom && e.deltaY > 0)) {
+      // If at the last project and scrolling down, let the page scroll naturally
+      if (activeIndexRef.current === cases.length - 1 && isScrollDown) {
+        return;
+      }
+
+      // If at the first project and scrolling up, let the page scroll naturally
+      if (activeIndexRef.current === 0 && isScrollUp) {
         return;
       }
 
