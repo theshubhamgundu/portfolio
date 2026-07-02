@@ -1,13 +1,12 @@
 import { AlbumIcon, Heart, LayoutTemplate } from 'lucide-react';
 import Image from 'next/image';
 import type { BaseLayoutProps, LinkItemType } from 'fumadocs-ui/layouts/shared';
-import { FumadocsIcon } from '@/app/layout.client';
 import Logo from '@/public/s.png';
 
 export const linkItems: LinkItemType[] = [
   {
     type: 'icon',
-    url: 'https://github.com/fuma-nama/fumadocs',
+    url: 'https://github.com/theshubhamgundu',
     label: 'github',
     text: 'Github',
     icon: (
@@ -20,17 +19,13 @@ export const linkItems: LinkItemType[] = [
 ];
 
 export const logo = (
-  <>
-    <Image
-      alt="Fumadocs"
-      src={Logo}
-      sizes="100px"
-      className="hidden w-22 in-[.uwu]:block"
-      aria-label="Fumadocs"
-    />
-
-    <FumadocsIcon className="size-5 in-[.uwu]:hidden" />
-  </>
+  <Image
+    alt="Logo"
+    src={Logo}
+    sizes="100px"
+    className="w-5 h-5 rounded-full object-contain"
+    aria-label="Logo"
+  />
 );
 
 export function baseOptions(): BaseLayoutProps {

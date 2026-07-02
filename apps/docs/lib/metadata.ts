@@ -18,17 +18,7 @@ export function createMetadata(override: Metadata): Metadata {
       images: '/banner.png',
       ...override.twitter,
     },
-    alternates: {
-      types: {
-        'application/rss+xml': [
-          {
-            title: 'Fumadocs Blog',
-            url: 'https://fumadocs.dev/blog/rss.xml',
-          },
-        ],
-      },
-      ...override.alternates,
-    },
+    alternates: override.alternates,
   };
 }
 
