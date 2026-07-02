@@ -39,6 +39,10 @@ import { Component as Background } from '@/components/ui/background-snippets';
 import { ScrollRevealText } from '@/components/ui/scroll-reveal-text';
 import { ServicesSection } from '@/components/ui/services-section';
 import ShubsssDevImage from './shubsss-dev.jpeg';
+import StoryImage from './shubsss-dev.jpeg';
+import Bg2Image from './shubsss-dev.jpeg';
+import ShadcnImage from './shubsss-dev.jpeg';
+import ContributorCounter from '@/components/contributor-count';
 import { story } from './story/client.story';
 
 const owner = 'theshubhamgundu';

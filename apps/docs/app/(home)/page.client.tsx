@@ -14,6 +14,9 @@ import {
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import Image from 'next/image';
+import MainImg from './shubsss-dev.jpeg';
+const NotebookImg = MainImg;
+const OpenAPIImg = MainImg;
 import { cva } from 'class-variance-authority';
 import { useTheme } from 'next-themes';
 import dynamic from 'next/dynamic';
