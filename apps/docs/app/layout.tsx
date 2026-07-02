@@ -12,7 +12,7 @@ export const metadata = createMetadata({
     template: '%s | Shubham Gundu',
     default: 'Shubham Gundu — Software Developer Portfolio',
   },
-  description: 'Software Developer | AI & Data Science Student Portfolio.',
+  description: 'Software Developer | AI & Data Science .',
   metadataBase: baseUrl,
 });
 
