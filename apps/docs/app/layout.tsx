@@ -6,6 +6,7 @@ import { Provider } from './provider';
 import type { ReactNode } from 'react';
 import { Geist, JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google';
 import { NextProvider } from 'fumadocs-core/framework/next';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata = createMetadata({
   title: {
@@ -61,7 +62,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <Body>
         <NextProvider>
-          <Provider>{children}</Provider>
+          <Provider>
+            {children}
+            <Analytics />
+          </Provider>
         </NextProvider>
       </Body>
     </html>

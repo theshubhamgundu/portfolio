@@ -29,6 +29,7 @@
     "@shikijs/transformers": "^4.2.0",
     "@takumi-rs/image-response": "^1.8.1",
     "@types/d3": "^7.4.3",
+    "@vercel/analytics": "^2.0.1",
     "ai": "^6.0.201",
     "class-variance-authority": "^0.7.1",
     "d3": "^7.9.0",
