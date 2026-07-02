@@ -162,7 +162,7 @@ export default function Page() {
           </Marquee>
         </div>
 
-        <div className="grid grid-cols-1 gap-10 mt-12 px-6 mx-auto w-full max-w-[1400px] md:px-12 lg:grid-cols-2 lg:mt-20">
+        <div className="grid grid-cols-1 gap-10 mt-6 px-6 mx-auto w-full max-w-[1400px] md:px-12 lg:grid-cols-2 lg:mt-8">
         <ScrollAnimatedSection>
           {/* Left Side: Floating Pills */}
           <div className="flex flex-col gap-4 max-md:flex-row max-md:flex-wrap max-md:justify-center md:w-1/4">

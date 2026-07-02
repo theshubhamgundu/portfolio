@@ -116,7 +116,7 @@ export const ServicesSection = ({ className }: ServicesSectionProps) => {
   ];
 
   return (
-    <section className={cn("col-span-full mt-16 md:mt-24 px-4 w-full select-none max-w-[1200px] mx-auto space-y-12", className)}>
+    <section className={cn("col-span-full mt-6 md:mt-8 px-4 w-full select-none max-w-[1200px] mx-auto space-y-12", className)}>
       
       {/* Section Header */}
       <div className="text-center max-w-[800px] mx-auto space-y-3 mb-4">
