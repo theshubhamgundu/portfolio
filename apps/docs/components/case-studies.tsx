@@ -139,9 +139,20 @@ const cases = [
   },
 ];
 
+const colorMap: Record<number, string> = {
+  0: "rgba(30, 58, 138, 0.12)",   // BulkBasket - Blue
+  1: "rgba(91, 33, 182, 0.12)",   // Happeno - Purple
+  2: "rgba(159, 18, 57, 0.12)",   // GatePass - Rose
+  3: "rgba(6, 78, 59, 0.12)",     // ChargeMap Live - Emerald/Green
+  4: "rgba(12, 74, 110, 0.12)",   // CampusNet - Sky/Blue
+  5: "rgba(59, 7, 100, 0.12)",    // TelecomCare AI - Violet/Purple
+  6: "rgba(124, 45, 18, 0.12)",   // CareerCompass AI - Rust/Orange
+};
+
 // ─── Component ────────────────────────────────────────────────────────────────
 export function CaseStudies() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   // Listen to scroll inside the right snap container
@@ -159,6 +170,33 @@ export function CaseStudies() {
     return () => el.removeEventListener("scroll", onScroll);
   }, [onScroll]);
 
+  // Forward wheel events from anywhere in the section into the right-side
+  // scroll-snap container so the user can scroll projects from either side.
+  useEffect(() => {
+    const section = sectionRef.current;
+    const snap = scrollRef.current;
+    if (!section || !snap) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      // Check if the scroll-snap container still has room to scroll
+      const atTop = snap.scrollTop <= 0;
+      const atBottom = snap.scrollTop + snap.clientHeight >= snap.scrollHeight - 1;
+
+      // If we're at the boundary and trying to scroll further past it,
+      // let the page scroll naturally (so users can leave the section).
+      if ((atTop && e.deltaY < 0) || (atBottom && e.deltaY > 0)) {
+        return;
+      }
+
+      // Otherwise, prevent page scroll and forward the delta to the snap container
+      e.preventDefault();
+      snap.scrollBy({ top: e.deltaY, behavior: "smooth" });
+    };
+
+    section.addEventListener("wheel", handleWheel, { passive: false });
+    return () => section.removeEventListener("wheel", handleWheel);
+  }, []);
+
   // Click a dot → programmatically scroll to that card
   const scrollTo = (idx: number) => {
     scrollRef.current?.scrollTo({ top: idx * (scrollRef.current.clientHeight), behavior: "smooth" });
@@ -168,7 +206,25 @@ export function CaseStudies() {
   const PANEL_H = "h-[82vh]";
 
   return (
-    <div className="col-span-full w-full py-16 select-none">
+    <div className="relative col-span-full w-full py-16 select-none overflow-hidden">
+
+      {/* Dynamic Ambient Background Glow */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
+        <motion.div
+          className="absolute -top-[20%] -left-[10%] w-[60%] h-[60%] rounded-full blur-[140px] opacity-70 transition-all"
+          animate={{
+            backgroundColor: colorMap[activeIndex] || "rgba(168, 85, 247, 0.12)",
+          }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute -bottom-[20%] -right-[10%] w-[60%] h-[60%] rounded-full blur-[140px] opacity-70 transition-all"
+          animate={{
+            backgroundColor: colorMap[(activeIndex + 2) % cases.length] || "rgba(236, 72, 153, 0.12)",
+          }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+        />
+      </div>
 
       {/* ── Header ── */}
       <div className="text-center space-y-3 mb-16 px-4">
@@ -184,7 +240,7 @@ export function CaseStudies() {
       </div>
 
       {/* ── Desktop: sticky-left + snap-right ── */}
-      <div className={cn("hidden lg:flex gap-12 items-stretch max-w-6xl mx-auto px-4 md:px-8", PANEL_H)}>
+      <div ref={sectionRef} className={cn("hidden lg:flex gap-12 items-stretch max-w-6xl mx-auto px-4 md:px-8", PANEL_H)}>
 
         {/* LEFT: info panel + timeline (fixed height, doesn't scroll) */}
         <div className="w-[42%] shrink-0 flex flex-col">
