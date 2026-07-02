@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "turbo run build",
+    "build": "turbo run build --filter=docs",
     "clean": "turbo run clean",
     "dev": "turbo run dev",
     "dev:examples": "turbo run dev --filter=./examples/*",
