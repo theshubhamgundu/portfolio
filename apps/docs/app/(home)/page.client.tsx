@@ -14,11 +14,7 @@ import {
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import Image from 'next/image';
-import MainImg from './main.png';
-import OpenAPIImg from './openapi.png';
-import NotebookImg from './notebook.png';
 import { cva } from 'class-variance-authority';
-import HeroImage from './hero-preview.jpeg';
 import { useTheme } from 'next-themes';
 import dynamic from 'next/dynamic';
 

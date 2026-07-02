@@ -38,11 +38,7 @@ import { Skillset } from '@/components/skillset';
 import { Component as Background } from '@/components/ui/background-snippets';
 import { ScrollRevealText } from '@/components/ui/scroll-reveal-text';
 import { ServicesSection } from '@/components/ui/services-section';
-import ShadcnImage from './shadcn.png';
-import ContributorCounter from '@/components/contributor-count';
-import StoryImage from './story.png';
 import ShubsssDevImage from './shubsss-dev.jpeg';
-import Bg2Image from './bg-2.png';
 import { story } from './story/client.story';
 
 const owner = 'theshubhamgundu';

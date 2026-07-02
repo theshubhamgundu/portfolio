@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/cn';
 import { buttonVariants } from '@/components/ui/button';
-import Logo from '@/public/logo.png';
+import Logo from '@/public/s.png';
 
 export function UwuHero() {
   return (
