@@ -1,8 +1,25 @@
 "use client";
 
 import Image from "next/image";
+import { useState, useEffect } from "react";
+
+const categories = ["E-Commerce", "Events", "Products", "Services", "SaaS"];
 
 export function Arena() {
+  const [categoryIndex, setCategoryIndex] = useState(0);
+  const [fade, setFade] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFade(false);
+      setTimeout(() => {
+        setCategoryIndex((prev) => (prev + 1) % categories.length);
+        setFade(true);
+      }, 200);
+    }, 1800);
+    return () => clearInterval(interval);
+  }, []);
+
   const row1 = [
     { title: "Samika", url: "https://samika.co/", image: "/client-screenshots/samika.png" },
     { title: "Karmara", url: "https://karmara.co/", image: "/client-screenshots/karmara.png" },
@@ -45,15 +62,14 @@ export function Arena() {
   const renderCard = (item: { title: string; url: string; image: string }, idx: number) => (
     <div
       key={idx}
-      className="relative w-[240px] md:w-[360px] aspect-[16/10] shrink-0 overflow-hidden rounded-2xl bg-neutral-900 border border-neutral-850 dark:border-neutral-800/50 shadow-md group cursor-default block"
-      title={item.title}
+      className="relative w-[240px] md:w-[440px] h-[120px] md:h-[200px] shrink-0 overflow-hidden bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800/50 shadow-sm group cursor-default block"
     >
       {/* Fallback card placeholder */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center p-4 bg-neutral-900 z-0 select-none">
-        <div className="size-9 rounded-full bg-gradient-to-br from-neutral-800 to-neutral-950 border border-neutral-800 flex items-center justify-center text-[11px] font-extrabold text-neutral-355 shadow-inner">
+      <div className="absolute inset-0 flex flex-col items-center justify-center p-4 bg-neutral-50 dark:bg-neutral-900 z-0 select-none">
+        <div className="size-9 rounded-full bg-gradient-to-br from-white to-neutral-100 dark:from-neutral-800 dark:to-neutral-950 border border-neutral-200 dark:border-neutral-800 flex items-center justify-center text-[11px] font-extrabold text-neutral-600 dark:text-neutral-300 shadow-sm">
           {item.title[0]}
         </div>
-        <span className="text-[9px] font-bold text-neutral-500 mt-2 tracking-wider font-mono uppercase">
+        <span className="text-[9px] font-bold text-neutral-400 dark:text-neutral-500 mt-2 tracking-wider font-mono uppercase">
           {item.title}
         </span>
       </div>
@@ -63,14 +79,14 @@ export function Arena() {
         src={item.image}
         alt={item.title}
         fill
-        sizes="(max-width: 768px) 240px, 360px"
-        className="object-cover object-top opacity-35 dark:opacity-20 group-hover:opacity-100 group-hover:scale-102 transition-all duration-555 ease-in-out select-none pointer-events-none z-10"
+        unoptimized
+        className="object-cover object-top opacity-100 select-none pointer-events-none z-10"
       />
     </div>
   );
 
   return (
-    <div className="col-span-full mt-24 text-center animate-[fadeIn_0.5s_ease-out] w-full">
+    <div className="mt-24 text-center animate-[fadeIn_0.5s_ease-out] w-full">
       <div className="space-y-4 mb-16 px-4">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-neutral-300 dark:border-neutral-800 text-[11px] font-bold text-neutral-700 dark:text-neutral-300 bg-neutral-50 dark:bg-neutral-900 select-none">
           <span>✦ SHOWCASE</span>
@@ -79,32 +95,28 @@ export function Arena() {
           My Arena
         </h2>
         <p className="font-jakarta text-base sm:text-lg text-neutral-500 dark:text-neutral-400 max-w-2xl mx-auto leading-relaxed">
-          Hover over each screenshot below to view the client websites in full color.
+          Explore the live websites and digital experiences built for my clients.
         </p>
       </div>
 
-      {/* Relume-style dark card container */}
-      <div className="relative w-full max-w-[1400px] mx-auto rounded-[2rem] overflow-hidden border border-neutral-200/50 dark:border-neutral-850/50 bg-neutral-950 p-2.5 shadow-xl">
+      {/* Relume-style full-viewport container with subtle gradient background */}
+      <div className="relative w-full overflow-hidden bg-gradient-to-r from-sky-500/[0.03] via-purple-500/[0.05] to-pink-500/[0.03] dark:from-sky-500/[0.01] dark:via-purple-500/[0.03] dark:to-pink-500/[0.01] py-10">
         
-        {/* Left and Right Fade Overlays to prevent sharp cutting at the edges */}
-        <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-r from-neutral-950 to-transparent pointer-events-none z-20" />
-        <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-l from-neutral-950 to-transparent pointer-events-none z-20" />
-
         {/* Sliders Container */}
-        <div className="flex flex-col gap-2.5 overflow-hidden w-full relative z-0">
+        <div className="flex flex-col gap-4 overflow-hidden w-full relative z-0">
           
           {/* Row 1: slides left */}
-          <div className="flex animate-marquee-left gap-2.5">
+          <div className="flex flex-nowrap animate-marquee-left gap-4">
             {[...row1, ...row1].map((item, idx) => renderCard(item, idx))}
           </div>
 
           {/* Row 2: slides right */}
-          <div className="flex animate-marquee-right gap-2.5">
+          <div className="flex flex-nowrap animate-marquee-right gap-4">
             {[...row2, ...row2].map((item, idx) => renderCard(item, idx))}
           </div>
 
           {/* Row 3: slides left */}
-          <div className="flex animate-marquee-left gap-2.5">
+          <div className="flex flex-nowrap animate-marquee-left gap-4">
             {[...row3, ...row3].map((item, idx) => renderCard(item, idx))}
           </div>
 
@@ -112,20 +124,23 @@ export function Arena() {
 
         {/* Center Floating Badge/Button */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-auto">
-          <div className="relative p-[1.5px] rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-sky-500 shadow-2xl hover:scale-103 transition-transform duration-300">
-            <a
-              href="https://github.com/theshubhamgundu"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white text-black font-extrabold font-jakarta text-xs sm:text-sm px-6 py-3.5 rounded-full flex items-center gap-1.5 hover:bg-neutral-50 transition-colors shadow-inner whitespace-nowrap"
-            >
-              <span className="text-pink-500">30+</span> Client Websites Built <span className="font-light ml-1">→</span>
-            </a>
-          </div>
+          <a
+            href="https://github.com/theshubhamgundu"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-neutral-950 dark:bg-neutral-900 border border-neutral-800/80 text-white font-bold font-jakarta text-xs sm:text-sm px-5 py-3 rounded-full flex items-center gap-2.5 hover:bg-neutral-900 dark:hover:bg-neutral-850 shadow-xl transition-all duration-300 hover:scale-103 whitespace-nowrap"
+          >
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+            </span>
+            <span>80+ Startup Projects Shipped</span>
+            <span className="text-neutral-700 dark:text-neutral-500">|</span>
+            <span className={`text-pink-400 font-extrabold transition-opacity duration-200 ${fade ? 'opacity-100' : 'opacity-0'}`}>
+              {categories[categoryIndex]} Projects →
+            </span>
+          </a>
         </div>
-
-        {/* Dark overlay to fade back row items under badge */}
-        <div className="absolute inset-0 bg-neutral-950/15 pointer-events-none z-10" />
       </div>
     </div>
   );

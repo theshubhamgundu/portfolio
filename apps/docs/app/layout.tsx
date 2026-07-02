@@ -31,6 +31,21 @@ const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
 });
 
+const inject = `
+const urlParams = new URLSearchParams(window.location.search);
+const uwuParam = urlParams.get("uwu");
+
+if (typeof uwuParam === 'string') {
+    localStorage.setItem('uwu', uwuParam);
+}
+
+const item = localStorage.getItem('uwu')
+
+if (item === 'true') {
+    document.documentElement.classList.add("uwu")
+}
+`;
+
 export const viewport: Viewport = {
   themeColor: [
     { media: '(prefers-color-scheme: dark)', color: '#0A0A0A' },
@@ -41,6 +56,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${geist.variable} ${mono.variable} ${jakarta.variable}`} suppressHydrationWarning>
+      <head>
+        <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: inject }} />
+      </head>
       <Body>
         <NextProvider>
           <Provider>{children}</Provider>

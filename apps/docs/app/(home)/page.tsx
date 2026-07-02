@@ -228,11 +228,11 @@ export default function Page() {
         <Feedback />
         <Aesthetics />
         <CaseStudies />
-        <Arena />
-
-        </div>
       </div>
-    </main>
+
+      <Arena />
+    </div>
+  </main>
   );
 }
 
