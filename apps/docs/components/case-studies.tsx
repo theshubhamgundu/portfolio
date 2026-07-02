@@ -206,7 +206,7 @@ export function CaseStudies() {
   const PANEL_H = "h-[82vh]";
 
   return (
-    <div className="relative col-span-full w-full py-16 select-none overflow-hidden">
+    <div className="relative col-span-full w-full pt-16 pb-2 select-none overflow-hidden">
 
       {/* Dynamic Ambient Background Glow */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">

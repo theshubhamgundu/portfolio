@@ -292,7 +292,7 @@ export function Voices() {
   );
 
   return (
-    <div className="col-span-full mt-24 text-center animate-[fadeIn_0.5s_ease-out] w-full">
+    <div className="col-span-full mt-8 text-center animate-[fadeIn_0.5s_ease-out] w-full">
       <div className="space-y-4 mb-16 px-4">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-neutral-300 dark:border-neutral-800 text-[11px] font-bold text-neutral-700 dark:text-neutral-300 bg-neutral-50 dark:bg-neutral-900 select-none">
           <span>✦ WHAT OTHERS SAY</span>

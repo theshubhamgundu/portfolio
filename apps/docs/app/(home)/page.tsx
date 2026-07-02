@@ -341,7 +341,7 @@ function Story() {
 
 function Aesthetics() {
   return (
-    <div className="col-span-full p-8 md:p-12 rounded-3xl border border-neutral-200/60 dark:border-neutral-800/30 bg-gradient-to-br from-sky-100/30 via-purple-100/20 to-emerald-100/30 dark:from-sky-950/20 dark:via-purple-950/10 dark:to-emerald-950/20 shadow-sm mt-16 md:mt-24 space-y-20 md:space-y-28">
+    <div className="col-span-full p-8 md:p-12 rounded-3xl border border-neutral-200/60 dark:border-neutral-800/30 bg-gradient-to-br from-sky-100/30 via-purple-100/20 to-emerald-100/30 dark:from-sky-950/20 dark:via-purple-950/10 dark:to-emerald-950/20 shadow-sm mt-6 md:mt-8 space-y-20 md:space-y-28">
       
       {/* Row 1: Team Photo and More About Us */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
