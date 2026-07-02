@@ -50,10 +50,10 @@ export function Arena() {
     >
       {/* Fallback card placeholder */}
       <div className="absolute inset-0 flex flex-col items-center justify-center p-4 bg-neutral-900 z-0 select-none">
-        <div className="size-9 rounded-full bg-gradient-to-br from-neutral-800 to-neutral-950 border border-neutral-800 flex items-center justify-center text-[11px] font-extrabold text-neutral-355 shadow-inner group-hover:text-white transition-colors">
+        <div className="size-9 rounded-full bg-gradient-to-br from-neutral-800 to-neutral-950 border border-neutral-800 flex items-center justify-center text-[11px] font-extrabold text-neutral-355 shadow-inner">
           {item.title[0]}
         </div>
-        <span className="text-[9px] font-bold text-neutral-500 mt-2 tracking-wider font-mono uppercase group-hover:text-neutral-400 transition-colors">
+        <span className="text-[9px] font-bold text-neutral-500 mt-2 tracking-wider font-mono uppercase">
           {item.title}
         </span>
       </div>
@@ -66,13 +66,6 @@ export function Arena() {
         sizes="(max-width: 768px) 240px, 360px"
         className="object-cover object-top opacity-35 dark:opacity-20 group-hover:opacity-100 group-hover:scale-102 transition-all duration-555 ease-in-out select-none pointer-events-none z-10"
       />
-
-      {/* Title Overlay */}
-      <div className="absolute bottom-2 left-2 right-2 bg-neutral-950/90 backdrop-blur-sm border border-neutral-800 rounded-lg p-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none flex items-center justify-between z-20">
-        <span className="text-[9px] font-bold text-white font-jakarta truncate w-full text-center">
-          {item.title}
-        </span>
-      </div>
     </div>
   );
 
@@ -90,24 +83,28 @@ export function Arena() {
         </p>
       </div>
 
-      {/* Full-viewport breakout container */}
-      <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden bg-neutral-950 py-14 border-y border-neutral-200/40 dark:border-neutral-850/50 shadow-inner">
+      {/* Relume-style dark card container */}
+      <div className="relative w-full max-w-[1400px] mx-auto rounded-[2rem] overflow-hidden border border-neutral-200/50 dark:border-neutral-850/50 bg-neutral-950 p-2.5 shadow-xl">
         
+        {/* Left and Right Fade Overlays to prevent sharp cutting at the edges */}
+        <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-r from-neutral-950 to-transparent pointer-events-none z-20" />
+        <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-l from-neutral-950 to-transparent pointer-events-none z-20" />
+
         {/* Sliders Container */}
-        <div className="flex flex-col gap-4 overflow-hidden w-full relative z-0">
+        <div className="flex flex-col gap-2.5 overflow-hidden w-full relative z-0">
           
           {/* Row 1: slides left */}
-          <div className="flex animate-marquee-left gap-4">
+          <div className="flex animate-marquee-left gap-2.5">
             {[...row1, ...row1].map((item, idx) => renderCard(item, idx))}
           </div>
 
           {/* Row 2: slides right */}
-          <div className="flex animate-marquee-right gap-4">
+          <div className="flex animate-marquee-right gap-2.5">
             {[...row2, ...row2].map((item, idx) => renderCard(item, idx))}
           </div>
 
           {/* Row 3: slides left */}
-          <div className="flex animate-marquee-left gap-4">
+          <div className="flex animate-marquee-left gap-2.5">
             {[...row3, ...row3].map((item, idx) => renderCard(item, idx))}
           </div>
 
