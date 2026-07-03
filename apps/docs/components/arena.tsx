@@ -62,7 +62,7 @@ export function Arena() {
   const renderCard = (item: { title: string; url: string; image: string }, idx: number) => (
     <div
       key={idx}
-      className="relative w-[240px] md:w-[440px] h-[120px] md:h-[200px] shrink-0 overflow-hidden bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800/50 shadow-sm group cursor-default block"
+      className="relative w-[240px] md:w-[440px] h-[120px] md:h-[240px] shrink-0 overflow-hidden bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800/50 shadow-lg rounded-2xl group cursor-default block"
     >
       {/* Fallback card placeholder */}
       <div className="absolute inset-0 flex flex-col items-center justify-center p-4 bg-neutral-50 dark:bg-neutral-900 z-0 select-none">
@@ -86,7 +86,7 @@ export function Arena() {
   );
 
   return (
-    <div className="mt-6 md:mt-8 text-center animate-[fadeIn_0.5s_ease-out] w-full">
+    <div className="mt-6 md:mt-8 text-center animate-[fadeIn_0.5s_ease-out] w-full overflow-hidden">
       <div className="space-y-4 mb-16 px-4">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-neutral-300 dark:border-neutral-800 text-[11px] font-bold text-neutral-700 dark:text-neutral-300 bg-neutral-50 dark:bg-neutral-900 select-none">
           <span>✦ SHOWCASE</span>
@@ -100,24 +100,24 @@ export function Arena() {
       </div>
 
       {/* Relume-style full-viewport container with subtle gradient background */}
-      <div className="relative w-full overflow-hidden bg-gradient-to-r from-sky-500/[0.03] via-purple-500/[0.05] to-pink-500/[0.03] dark:from-sky-500/[0.01] dark:via-purple-500/[0.03] dark:to-pink-500/[0.01] py-10">
+      <div className="relative w-full h-[600px] md:h-[800px] flex items-center justify-center overflow-hidden bg-gradient-to-r from-sky-500/[0.03] via-purple-500/[0.05] to-pink-500/[0.03] dark:from-sky-500/[0.01] dark:via-purple-500/[0.03] dark:to-pink-500/[0.01]">
         
-        {/* Sliders Container */}
-        <div className="flex flex-col gap-4 overflow-hidden w-full relative z-0">
+        {/* Sliders Container - Rotated to create the "cross/diagonal" effect */}
+        <div className="flex flex-col gap-6 md:gap-8 overflow-visible w-[150vw] md:w-[120vw] relative z-0 -rotate-12 scale-110 pointer-events-none">
           
           {/* Row 1: slides left */}
-          <div className="flex flex-nowrap animate-marquee-left gap-4">
-            {[...row1, ...row1].map((item, idx) => renderCard(item, idx))}
+          <div className="flex flex-nowrap animate-marquee-left gap-6 md:gap-8">
+            {[...row1, ...row1, ...row1].map((item, idx) => renderCard(item, idx))}
           </div>
 
           {/* Row 2: slides right */}
-          <div className="flex flex-nowrap animate-marquee-right gap-4">
-            {[...row2, ...row2].map((item, idx) => renderCard(item, idx))}
+          <div className="flex flex-nowrap animate-marquee-right gap-6 md:gap-8 ml-[-10vw]">
+            {[...row2, ...row2, ...row2].map((item, idx) => renderCard(item, idx))}
           </div>
 
           {/* Row 3: slides left */}
-          <div className="flex flex-nowrap animate-marquee-left gap-4">
-            {[...row3, ...row3].map((item, idx) => renderCard(item, idx))}
+          <div className="flex flex-nowrap animate-marquee-left gap-6 md:gap-8">
+            {[...row3, ...row3, ...row3].map((item, idx) => renderCard(item, idx))}
           </div>
 
         </div>
@@ -128,7 +128,7 @@ export function Arena() {
             href="https://github.com/theshubhamgundu"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-neutral-950 dark:bg-neutral-900 border border-neutral-800/80 text-white font-bold font-jakarta text-xs sm:text-sm px-5 py-3 rounded-full flex items-center gap-2.5 hover:bg-neutral-900 dark:hover:bg-neutral-850 shadow-xl transition-all duration-300 hover:scale-103 whitespace-nowrap"
+            className="bg-neutral-950 dark:bg-neutral-900 border border-neutral-800/80 text-white font-bold font-jakarta text-xs sm:text-sm px-6 py-4 rounded-full flex items-center gap-3 hover:bg-neutral-900 dark:hover:bg-neutral-850 shadow-2xl transition-all duration-300 hover:scale-105 whitespace-nowrap backdrop-blur-xl"
           >
             <span className="relative flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -141,6 +141,7 @@ export function Arena() {
             </span>
           </a>
         </div>
+
       </div>
     </div>
   );

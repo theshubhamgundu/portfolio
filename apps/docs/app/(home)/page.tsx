@@ -33,8 +33,9 @@ import { PrismaHero } from '@/components/ui/prisma-hero';
 import { CaseStudies } from '@/components/case-studies';
 import { Arena } from '@/components/arena';
 import { Voices } from '@/components/voices';
-import { CrossingRibbons } from '@/components/crossing-ribbons';
 import { Skillset } from '@/components/skillset';
+import { CrossingRibbons } from '@/components/crossing-ribbons';
+import { Footer } from '@/components/footer';
 import { Component as Background } from '@/components/ui/background-snippets';
 import { ScrollRevealText } from '@/components/ui/scroll-reveal-text';
 import { ServicesSection } from '@/components/ui/services-section';
@@ -237,6 +238,7 @@ export default function Page() {
       <Skillset />
       <CrossingRibbons />
       <Arena />
+      <Footer />
     </div>
   </main>
   );

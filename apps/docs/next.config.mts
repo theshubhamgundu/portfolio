@@ -27,6 +27,9 @@ const config: NextConfig = {
     'shiki',
     '@takumi-rs/image-response',
   ],
+  turbopack: {
+    root: path.join(__dirname, '../..'),
+  },
   images: {
     remotePatterns: [
       {
