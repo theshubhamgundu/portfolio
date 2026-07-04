@@ -1,0 +1,53 @@
+# Shubham Gundu - Software Developer Portfolio
+
+Shubham Gundu is a Software Developer specializing in AI & Data Science, based in Hyderabad, Telangana, India.
+
+## Contact Information
+- **Email:** hello@shubhamgundu.in / shubsss29@gmail.com
+- **Website:** https://shubhamgundu.vercel.app
+- **GitHub:** https://github.com/theshubhamgundu
+- **LinkedIn:** https://linkedin.com/in/shubhamgundu
+- **Instagram:** https://instagram.com/shubham.gundu
+
+## Professional Profile
+A passionate developer who excels at rapid prototyping, system design, and taking ideas from zero to production. Experienced in full-stack web development, mobile applications, cloud deployments, and AI integrations (specifically RAG and LLM systems).
+
+## Technical Skills
+- **Programming Languages:** Python, JavaScript, Dart, SQL
+- **Web & Mobile Frameworks:** React, Next.js, Node.js, Express, SvelteKit, Flutter, FastAPI
+- **Databases & Vector Stores:** PostgreSQL, PostGIS, Supabase, MongoDB, SQLite, ChromaDB
+- **State Management & Tooling:** Zustand, Zod, Git, Docker, AWS, Bun, pnpm, Postman, Figma
+
+## Key Projects
+1. **BulkBasket (Wholesale Grocery Platform):**
+   - Tech: React, TypeScript, Tailwind CSS, Node.js, Express, PostgreSQL, Supabase, Stripe
+   - Features: Quantity-based dynamic pricing, personalized reorder templates, scheduled deliveries, Stripe integration.
+
+2. **Happeno (Hyperlocal Discovery Platform):**
+   - Tech: SvelteKit, TypeScript, Tailwind CSS, Supabase, PostgreSQL, PostGIS, Mapbox, Progressive Web App (PWA)
+   - Features: PostGIS geospatial queries for nearby updates/deals, Mapbox interactive routing, offline access.
+
+3. **GatePass (Visitor Access Control):**
+   - Tech: React, TypeScript, Tailwind CSS, Node.js, Express, PostgreSQL, Supabase, QR Code
+   - Features: Visitor approvals, digital gate passes via QR, parking spot allocation optimization engine.
+
+4. **VHACK 2.0 Hackathon Portal:**
+   - Tech: React, Node.js, Next.js, Supabase
+   - Features: Comprehensive hackathon management and evaluation workflow for ~2,000 live participants.
+
+5. **Happeno Offer Engine:**
+   - Tech: Svelte, TypeScript, Node.js, WebSockets, Uber H3 hexagonal indexing
+   - Features: Real-time geospatial offer pipeline matching local deals to active shoppers in real-time.
+
+6. **Vansh 2K26 Registration:**
+   - Tech: React, Next.js App Router, Supabase, QR Code
+   - Features: Ticketing and check-in architecture handling 10K+ concurrent traffic, multi-attempt payment retries.
+
+7. **Campus Connect Mobile App:**
+   - Tech: Flutter, Dart, offline Wi-Fi service discovery, SQLite
+   - Features: Offline peer-to-peer Wi-Fi app enabling chat, file sharing, and bulletin feeds in jammer-active campus zones.
+
+## Education & Leadership
+- **B.Tech in Artificial Intelligence & Data Science:** Vignan Institute of Technology (Expected 2027) | CGPA: 8.0/10.0
+- **Aid-X Club Founder & Lead:** Founded Vignan's tech club bridging curriculum and industry. Managed 200+ members, organized 8 hackathons, and conducted 12+ hands-on workshops.
+- **Freelance Experience:** Delivered 4+ commercial client projects with 100% on-time delivery.

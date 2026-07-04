@@ -1,5 +1,5 @@
-import RotatingEarth from "@/components/ui/wireframe-dotted-globe";
+import { Component } from "@/components/ui/sterling-gate-kinetic-navigation";
 
 export default function DemoOne() {
-  return <RotatingEarth />;
+  return <Component />;
 }

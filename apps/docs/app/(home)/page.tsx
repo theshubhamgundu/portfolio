@@ -29,12 +29,31 @@ import {
   ScrollAnimatedSection,
   Feedback,
 } from '@/app/(home)/page.client';
+import dynamic from 'next/dynamic';
+
+const CaseStudies = dynamic(() => import('@/components/case-studies').then((mod) => mod.CaseStudies), {
+  loading: () => <div className="h-[400px] w-full bg-neutral-100/50 dark:bg-neutral-900/50 animate-pulse rounded-2xl" />
+});
+
+const Arena = dynamic(() => import('@/components/arena').then((mod) => mod.Arena), {
+  loading: () => <div className="h-[600px] w-full bg-neutral-100/50 dark:bg-neutral-900/50 animate-pulse rounded-2xl" />
+});
+
+const Voices = dynamic(() => import('@/components/voices').then((mod) => mod.Voices), {
+  loading: () => <div className="h-[300px] w-full bg-neutral-100/50 dark:bg-neutral-900/50 animate-pulse rounded-2xl" />
+});
+
+const Skillset = dynamic(() => import('@/components/skillset').then((mod) => mod.Skillset), {
+  loading: () => <div className="h-[200px] w-full bg-neutral-100/50 dark:bg-neutral-900/50 animate-pulse rounded-2xl" />
+});
+
+const CrossingRibbons = dynamic(() => import('@/components/crossing-ribbons').then((mod) => mod.CrossingRibbons), {
+  loading: () => <div className="h-[120px] w-full bg-neutral-100/50 dark:bg-neutral-900/50 animate-pulse rounded-2xl" />
+});
+
+const KineticNav = dynamic(() => import('@/components/ui/sterling-gate-kinetic-navigation').then((mod) => mod.Component));
+
 import { PrismaHero } from '@/components/ui/prisma-hero';
-import { CaseStudies } from '@/components/case-studies';
-import { Arena } from '@/components/arena';
-import { Voices } from '@/components/voices';
-import { Skillset } from '@/components/skillset';
-import { CrossingRibbons } from '@/components/crossing-ribbons';
 import { Footer } from '@/components/footer';
 import { Component as Background } from '@/components/ui/background-snippets';
 import { ScrollRevealText } from '@/components/ui/scroll-reveal-text';
@@ -45,6 +64,8 @@ import Bg2Image from './shubsss-dev.jpeg';
 import ShadcnImage from './shubsss-dev.jpeg';
 import ContributorCounter from '@/components/contributor-count';
 import { story } from './story/client.story';
+
+import { FloatingNav } from '@/components/floating-nav';
 
 const owner = 'theshubhamgundu';
 const repo = 'vhack_2.0';
@@ -124,38 +145,44 @@ const isInvertedLogo = (src: string) => {
 
 export default function Page() {
   return (
-    <main className="text-landing-foreground pt-0 pb-6 dark:text-landing-foreground-dark md:pb-12">
-      <PrismaHero />
-      <div className="relative">
-        <Background />
+    <>
+      <FloatingNav />
+      <main id="home" className="text-landing-foreground pt-0 pb-6 dark:text-landing-foreground-dark md:pb-12 overflow-x-hidden">
+        <PrismaHero />
+        <div className="relative overflow-hidden">
+          <Background />
         
         {/* Brand Logos Marquee */}
         <div className="border-y border-neutral-100/30 bg-transparent pt-8 pb-6 space-y-6">
           <p className="text-center font-jakarta text-xl sm:text-2xl md:text-3xl font-medium tracking-tight text-neutral-600 dark:text-neutral-300 select-none">
             Trusted by leading startups & creators
           </p>
-          <Marquee className="[--duration:30s] [--gap:4.5rem]" pauseOnHover>
+          <Marquee className="[--duration:30s] [--gap:3rem] sm:[--gap:4.5rem]" pauseOnHover>
             {row1Logos.map((src, idx) => (
               <img
                 key={idx}
                 src={src}
                 alt="Brand logo"
+                loading="lazy"
+                decoding="async"
                 className={cn(
-                  "h-10 sm:h-14 w-auto object-contain transition-transform duration-300 hover:scale-105",
+                  "h-8 sm:h-10 md:h-14 w-auto object-contain transition-transform duration-300 hover:scale-105",
                   isInvertedLogo(src) && "invert dark:invert-0"
                 )}
               />
             ))}
           </Marquee>
           
-          <Marquee className="[--duration:30s] [--gap:4.5rem]" reverse pauseOnHover>
+          <Marquee className="[--duration:30s] [--gap:3rem] sm:[--gap:4.5rem]" reverse pauseOnHover>
             {row2Logos.map((src, idx) => (
               <img
                 key={idx}
                 src={src}
                 alt="Brand logo"
+                loading="lazy"
+                decoding="async"
                 className={cn(
-                  "h-10 sm:h-14 w-auto object-contain transition-transform duration-300 hover:scale-105",
+                  "h-8 sm:h-10 md:h-14 w-auto object-contain transition-transform duration-300 hover:scale-105",
                   isInvertedLogo(src) && "invert dark:invert-0"
                 )}
               />
@@ -163,25 +190,25 @@ export default function Page() {
           </Marquee>
         </div>
 
-        <div className="grid grid-cols-1 gap-10 mt-6 px-6 mx-auto w-full max-w-[1400px] md:px-12 lg:grid-cols-2 lg:mt-8">
+        <div className="grid grid-cols-1 gap-6 sm:gap-10 mt-6 px-4 sm:px-6 mx-auto w-full max-w-[1400px] md:px-12 lg:grid-cols-2 lg:mt-8 overflow-hidden">
         <ScrollAnimatedSection>
           {/* Left Side: Floating Pills */}
           <div className="flex flex-col gap-4 max-md:flex-row max-md:flex-wrap max-md:justify-center md:w-1/4">
-            <div className="flex items-center gap-3 bg-fd-card/85 dark:bg-neutral-900/85 backdrop-blur-md border px-4 py-2.5 rounded-full shadow-lg transition-all duration-700 delay-100 ease-out hover:scale-105 w-fit [.is-hidden_&]:translate-x-[-120px] [.is-hidden_&]:opacity-0 [.is-visible_&]:translate-x-0 [.is-visible_&]:opacity-100">
+            <div className="flex items-center gap-3 bg-fd-card/85 dark:bg-neutral-900/85 backdrop-blur-md border px-3 sm:px-4 py-2 sm:py-2.5 rounded-full shadow-lg transition-all duration-700 delay-100 ease-out hover:scale-105 w-fit [.is-hidden_&]:opacity-0 [.is-visible_&]:opacity-100 sm:[.is-hidden_&]:translate-x-[-120px] sm:[.is-visible_&]:translate-x-0">
               <div className="size-8 rounded-full bg-emerald-500 flex items-center justify-center text-white">
                 <SmartphoneIcon className="size-4" />
               </div>
               <span className="text-sm font-medium tracking-tight text-fd-foreground">Android / iOS Dev</span>
             </div>
             
-            <div className="flex items-center gap-3 bg-fd-card/85 dark:bg-neutral-900/85 backdrop-blur-md border px-4 py-2.5 rounded-full shadow-lg transition-all duration-700 delay-200 ease-out hover:scale-105 md:translate-x-4 w-fit [.is-hidden_&]:translate-x-[-120px] [.is-hidden_&]:opacity-0 [.is-visible_&]:translate-x-4 [.is-visible_&]:opacity-100">
+            <div className="flex items-center gap-3 bg-fd-card/85 dark:bg-neutral-900/85 backdrop-blur-md border px-3 sm:px-4 py-2 sm:py-2.5 rounded-full shadow-lg transition-all duration-700 delay-200 ease-out hover:scale-105 md:translate-x-4 w-fit [.is-hidden_&]:opacity-0 [.is-visible_&]:opacity-100 sm:[.is-hidden_&]:translate-x-[-120px] sm:[.is-visible_&]:translate-x-4">
               <div className="size-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
                 <GlobeIcon className="size-4" />
               </div>
               <span className="text-sm font-medium tracking-tight text-fd-foreground">Web Development</span>
             </div>
             
-            <div className="flex items-center gap-3 bg-fd-card/85 dark:bg-neutral-900/85 backdrop-blur-md border px-4 py-2.5 rounded-full shadow-lg transition-all duration-700 delay-300 ease-out hover:scale-105 w-fit [.is-hidden_&]:translate-x-[-120px] [.is-hidden_&]:opacity-0 [.is-visible_&]:translate-x-0 [.is-visible_&]:opacity-100">
+            <div className="flex items-center gap-3 bg-fd-card/85 dark:bg-neutral-900/85 backdrop-blur-md border px-3 sm:px-4 py-2 sm:py-2.5 rounded-full shadow-lg transition-all duration-700 delay-300 ease-out hover:scale-105 w-fit [.is-hidden_&]:opacity-0 [.is-visible_&]:opacity-100 sm:[.is-hidden_&]:translate-x-[-120px] sm:[.is-visible_&]:translate-x-0">
               <div className="size-8 rounded-full bg-orange-500 flex items-center justify-center text-white">
                 <CpuIcon className="size-4" />
               </div>
@@ -204,21 +231,21 @@ export default function Page() {
 
           {/* Right Side: Floating Pills */}
           <div className="flex flex-col gap-4 max-md:flex-row max-md:flex-wrap max-md:justify-center md:items-end md:w-1/4">
-            <div className="flex items-center gap-3 bg-fd-card/85 dark:bg-neutral-900/85 backdrop-blur-md border px-4 py-2.5 rounded-full shadow-lg transition-all duration-700 delay-100 ease-out hover:scale-105 w-fit [.is-hidden_&]:translate-x-[120px] [.is-hidden_&]:opacity-0 [.is-visible_&]:translate-x-0 [.is-visible_&]:opacity-100">
+            <div className="flex items-center gap-3 bg-fd-card/85 dark:bg-neutral-900/85 backdrop-blur-md border px-3 sm:px-4 py-2 sm:py-2.5 rounded-full shadow-lg transition-all duration-700 delay-100 ease-out hover:scale-105 w-fit [.is-hidden_&]:opacity-0 [.is-visible_&]:opacity-100 sm:[.is-hidden_&]:translate-x-[120px] sm:[.is-visible_&]:translate-x-0">
               <div className="size-8 rounded-full bg-neutral-800 dark:bg-neutral-700 flex items-center justify-center text-white">
                 <TerminalIcon className="size-4" />
               </div>
               <span className="text-sm font-medium tracking-tight text-fd-foreground">System Design</span>
             </div>
             
-            <div className="flex items-center gap-3 bg-fd-card/85 dark:bg-neutral-900/85 backdrop-blur-md border px-4 py-2.5 rounded-full shadow-lg transition-all duration-700 delay-200 ease-out hover:scale-105 md:-translate-x-4 w-fit [.is-hidden_&]:translate-x-[120px] [.is-hidden_&]:opacity-0 [.is-visible_&]:translate-x-[-16px] [.is-visible_&]:opacity-100">
+            <div className="flex items-center gap-3 bg-fd-card/85 dark:bg-neutral-900/85 backdrop-blur-md border px-3 sm:px-4 py-2 sm:py-2.5 rounded-full shadow-lg transition-all duration-700 delay-200 ease-out hover:scale-105 md:-translate-x-4 w-fit [.is-hidden_&]:opacity-0 [.is-visible_&]:opacity-100 sm:[.is-hidden_&]:translate-x-[120px] sm:[.is-visible_&]:translate-x-[-16px]">
               <div className="size-8 rounded-full bg-pink-500 flex items-center justify-center text-white">
                 <DatabaseIcon className="size-4" />
               </div>
               <span className="text-sm font-medium tracking-tight text-fd-foreground">Backend Architecture</span>
             </div>
             
-            <div className="flex items-center gap-3 bg-fd-card/85 dark:bg-neutral-900/85 backdrop-blur-md border px-4 py-2.5 rounded-full shadow-lg transition-all duration-700 delay-300 ease-out hover:scale-105 w-fit [.is-hidden_&]:translate-x-[120px] [.is-hidden_&]:opacity-0 [.is-visible_&]:translate-x-0 [.is-visible_&]:opacity-100">
+            <div className="flex items-center gap-3 bg-fd-card/85 dark:bg-neutral-900/85 backdrop-blur-md border px-3 sm:px-4 py-2 sm:py-2.5 rounded-full shadow-lg transition-all duration-700 delay-300 ease-out hover:scale-105 w-fit [.is-hidden_&]:opacity-0 [.is-visible_&]:opacity-100 sm:[.is-hidden_&]:translate-x-[120px] sm:[.is-visible_&]:translate-x-0">
               <div className="size-8 rounded-full bg-yellow-500 flex items-center justify-center text-white">
                 <BotIcon className="size-4" />
               </div>
@@ -230,17 +257,24 @@ export default function Page() {
         <ServicesSection />
 
         <Feedback />
-        <Aesthetics />
-        <CaseStudies />
+        <div id="about" className="col-span-full">
+          <Aesthetics />
+        </div>
+        <div id="work" className="col-span-full">
+          <CaseStudies />
+        </div>
       </div>
 
-      <Voices />
+      <div id="blogs" className="col-span-full">
+        <Voices />
+      </div>
       <Skillset />
       <CrossingRibbons />
       <Arena />
       <Footer />
     </div>
   </main>
+  </>
   );
 }
 
@@ -343,13 +377,13 @@ function Story() {
 
 function Aesthetics() {
   return (
-    <div className="col-span-full p-8 md:p-12 rounded-3xl border border-neutral-200/60 dark:border-neutral-800/30 bg-gradient-to-br from-sky-100/30 via-purple-100/20 to-emerald-100/30 dark:from-sky-950/20 dark:via-purple-950/10 dark:to-emerald-950/20 shadow-sm mt-6 md:mt-8 space-y-20 md:space-y-28">
+    <div className="col-span-full p-5 sm:p-8 md:p-12 rounded-2xl sm:rounded-3xl border border-neutral-200/60 dark:border-neutral-800/30 bg-gradient-to-br from-sky-100/30 via-purple-100/20 to-emerald-100/30 dark:from-sky-950/20 dark:via-purple-950/10 dark:to-emerald-950/20 shadow-sm mt-6 md:mt-8 space-y-14 sm:space-y-20 md:space-y-28">
       
       {/* Row 1: Team Photo and More About Us */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
         {/* Left Side: Circular Group Image & Rotating Stamp */}
         <div className="lg:col-span-5 flex justify-center items-center relative">
-          <div className="relative size-[310px] sm:size-[380px] rounded-full border border-neutral-200 dark:border-neutral-800 overflow-hidden shadow-xl bg-neutral-100 dark:bg-neutral-900">
+          <div className="relative size-[240px] sm:size-[310px] md:size-[380px] rounded-full border border-neutral-200 dark:border-neutral-800 overflow-hidden shadow-xl bg-neutral-100 dark:bg-neutral-900">
             <Image
               src={ShubsssDevImage}
               alt="Shubham Gundu"
@@ -375,7 +409,7 @@ function Aesthetics() {
         </div>
 
         {/* Right Side: Bio and Details */}
-        <div className="lg:col-span-7 flex flex-col justify-center space-y-8 relative pr-8 sm:pr-16 lg:pr-24">
+        <div className="lg:col-span-7 flex flex-col justify-center space-y-6 sm:space-y-8 relative pr-4 sm:pr-8 md:pr-16 lg:pr-24">
           {/* Floating Hearts Icon - hand drawn mockup style */}
           <div className="absolute right-0 top-0 select-none">
             <svg className="size-24 text-black dark:text-neutral-200" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
@@ -442,7 +476,7 @@ function Aesthetics() {
         </div>
 
         {/* Right Sub-column (Vision, Mission, Values Timeline) */}
-        <div className="lg:col-span-7 relative pl-12 flex flex-col gap-10">
+        <div className="lg:col-span-7 relative pl-8 sm:pl-12 flex flex-col gap-8 sm:gap-10">
           {/* Thin vertical connector line */}
           <div className="absolute left-[23px] top-[16px] bottom-[16px] w-[2px] bg-neutral-200 dark:bg-neutral-800" />
 
@@ -689,7 +723,7 @@ function ForEngineers() {
         <p className="mb-4">
           Fluent in multilingual communication and skilled in modern development tools.
         </p>
-        <div className="flex flex-row w-fit items-center gap-4 mb-6">
+        <div className="flex flex-row flex-wrap w-fit items-center gap-2 sm:gap-4 mb-6">
           {[
             {
               href: 'https://github.com/theshubhamgundu',
@@ -732,7 +766,7 @@ function ForEngineers() {
           alt=""
           className="absolute inset-0 size-full object-cover object-top -z-1"
         />
-        <div className="absolute top-8 left-4 w-[70%] flex flex-col bg-neutral-50/80 backdrop-blur-lg border text-neutral-800 p-2 rounded-xl shadow-lg shadow-black dark:bg-neutral-900/80 dark:text-neutral-200">
+        <div className="absolute top-4 sm:top-8 left-2 sm:left-4 w-[85%] sm:w-[70%] flex flex-col bg-neutral-50/80 backdrop-blur-lg border text-neutral-800 p-2 rounded-xl shadow-lg shadow-black dark:bg-neutral-900/80 dark:text-neutral-200">
           <p className="px-2 pb-2 font-medium border-b mb-2 text-neutral-500 dark:text-neutral-400">
             Skills Inventory
           </p>
@@ -750,7 +784,7 @@ function ForEngineers() {
           ))}
         </div>
 
-        <div className="absolute bottom-8 right-4 w-[70%] flex flex-col bg-neutral-100 text-neutral-800 rounded-xl border shadow-lg shadow-black dark:bg-neutral-900 dark:text-neutral-200">
+        <div className="absolute bottom-4 sm:bottom-8 right-2 sm:right-4 w-[85%] sm:w-[70%] flex flex-col bg-neutral-100 text-neutral-800 rounded-xl border shadow-lg shadow-black dark:bg-neutral-900 dark:text-neutral-200">
           <div className="px-4 py-2 text-neutral-500 border-b font-medium dark:text-neutral-400">
             Developer Setup
           </div>

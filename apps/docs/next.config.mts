@@ -14,6 +14,14 @@ const withAnalyzer = createBundleAnalyzer({
 
 const config: NextConfig = {
   reactStrictMode: true,
+  compress: true,
+  experimental: {
+    optimizePackageImports: [
+      'lucide-react',
+      'framer-motion',
+      'class-variance-authority',
+    ],
+  },
   logging: {
     fetches: {
       fullUrl: true,

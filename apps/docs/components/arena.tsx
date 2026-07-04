@@ -74,12 +74,13 @@ export function Arena() {
         </span>
       </div>
 
-      {/* Optimized Next.js local image */}
+      {/* Optimized Next.js image with lazy loading and sizing */}
       <Image
         src={item.image}
         alt={item.title}
         fill
-        unoptimized
+        sizes="(max-width: 768px) 240px, 440px"
+        loading="lazy"
         className="object-cover object-top opacity-100 select-none pointer-events-none z-10"
       />
     </div>

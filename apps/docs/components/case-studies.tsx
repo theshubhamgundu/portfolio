@@ -341,6 +341,8 @@ export function CaseStudies() {
               <img
                 src={c.image}
                 alt={c.title}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-auto block select-none pointer-events-none"
                 style={{ maxHeight: "100%" }}
               />
@@ -350,7 +352,7 @@ export function CaseStudies() {
       </div>
 
       {/* ── Mobile: plain vertical stack ── */}
-      <div className="flex flex-col gap-16 lg:hidden max-w-xl mx-auto px-4">
+      <div className="flex flex-col gap-12 lg:hidden w-full max-w-2xl mx-auto px-4 sm:px-6">
         {cases.map((c, idx) => (
           <div key={idx} className="space-y-5">
             <div className="space-y-3">
@@ -389,7 +391,7 @@ export function CaseStudies() {
               </div>
             </div>
             <div className="overflow-hidden">
-              <img src={c.image} alt={c.title} className="w-full h-auto block select-none pointer-events-none" />
+              <img src={c.image} alt={c.title} loading="lazy" decoding="async" className="w-full h-auto block select-none pointer-events-none rounded-xl" />
             </div>
           </div>
         ))}

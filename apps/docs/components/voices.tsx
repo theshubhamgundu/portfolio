@@ -268,6 +268,8 @@ export function Voices() {
           <img
             src={item.avatar}
             alt={item.name}
+            loading="lazy"
+            decoding="async"
             className="size-10 sm:size-11 rounded-full object-cover border border-neutral-200 dark:border-neutral-800 shadow-inner"
           />
           <div className="flex flex-col min-w-0">

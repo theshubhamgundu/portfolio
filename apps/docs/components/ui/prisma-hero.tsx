@@ -2,7 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { useRef } from "react";
+import { useRef, useCallback } from "react";
 
 /* ---------------- WordsPullUp ---------------- */
 interface WordsPullUpProps {
@@ -85,16 +85,46 @@ export const WordsPullUpMultiStyle = ({ segments, className = "", style }: Words
 /* ---------------- Hero ---------------- */
 
 const PrismaHero = () => {
+  const spotlightRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!spotlightRef.current || !containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    spotlightRef.current.style.background = `radial-gradient(650px circle at ${x}px ${y}px, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 30%, transparent 65%)`;
+  }, []);
+
+  const handleMouseEnter = useCallback(() => {
+    if (spotlightRef.current) {
+      spotlightRef.current.style.opacity = '1';
+    }
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    if (spotlightRef.current) {
+      spotlightRef.current.style.opacity = '0';
+    }
+  }, []);
+
   return (
     <section className="h-screen w-full">
-      <div className="relative h-full w-full overflow-hidden rounded-2xl md:rounded-[2rem]">
+      <div
+        ref={containerRef}
+        className="relative h-full w-full overflow-hidden rounded-2xl md:rounded-[2rem]"
+        onMouseMove={handleMouseMove}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         
-        {/* Background video */}
+        {/* Background video — lazy loaded to avoid blocking paint */}
         <video
           autoPlay
           loop
           muted
           playsInline
+          preload="none"
           className="absolute inset-0 h-full w-full object-cover"
           src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4"
         />
@@ -105,16 +135,37 @@ const PrismaHero = () => {
         {/* Gradient overlay */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60" />
 
+        {/* Cursor spotlight — brightens the dark video on hover */}
+        <div
+          ref={spotlightRef}
+          className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-500 ease-out"
+          style={{ opacity: 0 }}
+        />
+
         {/* Hero content */}
-        <div className="absolute bottom-0 left-0 right-0 px-4 pb-2 sm:px-6 md:px-10">
-          <div className="grid grid-cols-12 items-end gap-4">
+        <div className="absolute bottom-0 left-0 right-0 px-4 pb-4 sm:px-6 sm:pb-2 md:px-10">
+          <div className="grid grid-cols-12 items-end gap-3 sm:gap-4">
             
-            <div className="col-span-12 lg:col-span-8">
-              <h1
-                className="font-medium leading-[0.85] tracking-[-0.07em] text-[20vw] sm:text-[18vw] md:text-[16vw] lg:text-[11vw] xl:text-[10vw] 2xl:text-[9vw]"
-                style={{ color: "#E1E0CC" }}
+            <div className="col-span-12 lg:col-span-8 flex flex-col justify-end gap-3 pb-2 lg:pb-0">
+              <motion.div 
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="inline-flex items-center gap-2.5 border border-[#E1E0CC]/20 bg-black/20 backdrop-blur-md rounded-full px-4 py-1.5 w-fit mb-2"
               >
-                <WordsPullUp text="Shubham" showAsterisk />
+                <span className="size-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse" />
+                <span className="text-[9px] sm:text-[10px] text-[#E1E0CC]/80 font-mono tracking-[0.15em] uppercase font-bold">
+                  Building digital products that actually convert
+                </span>
+              </motion.div>
+
+              <h1 className="flex flex-col leading-[1.05] tracking-tight text-[13.5vw] sm:text-[11vw] md:text-[9vw] lg:text-[6.8vw] text-[#E1E0CC]">
+                <span className="font-extrabold font-jakarta -ml-1">
+                  <WordsPullUp text="Designing products" />
+                </span>
+                <span className="font-serif italic font-light text-[#E1E0CC]/90">
+                  <WordsPullUp text="people love." />
+                </span>
               </h1>
             </div>
 

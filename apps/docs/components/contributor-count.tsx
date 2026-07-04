@@ -46,7 +46,6 @@ export default async function ContributorCounter({
             <Image
               src={contributor.avatar_url}
               alt={`${contributor.login}'s avatar`}
-              unoptimized
               width={48}
               height={48}
             />

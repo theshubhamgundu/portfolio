@@ -64,8 +64,8 @@ export function Footer() {
             >
               <input
                 type="email"
-                placeholder="Enter your email address"
-                className="flex-1 h-11 px-4 text-sm bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-l-full outline-none text-neutral-700 dark:text-neutral-300 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:border-neutral-400 dark:focus:border-neutral-500 transition-colors"
+                placeholder="Enter your email"
+                className="flex-1 min-w-0 h-11 px-4 text-sm bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-l-full outline-none text-neutral-700 dark:text-neutral-300 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:border-neutral-400 dark:focus:border-neutral-500 transition-colors"
               />
               <button
                 type="submit"
@@ -112,7 +112,7 @@ export function Footer() {
           </div>
 
           {/* Right: Link columns */}
-          <div className="flex gap-16 md:gap-20">
+          <div className="flex gap-8 sm:gap-16 md:gap-20">
             <div className="space-y-4">
               <h4 className="text-sm font-semibold text-neutral-900 dark:text-white">Links</h4>
               <ul className="space-y-3">
@@ -149,7 +149,7 @@ export function Footer() {
         {/* Watermark */}
         <div className="mt-12 overflow-hidden px-4">
           <div
-            className="text-[clamp(3.5rem,10vw,7rem)] font-black tracking-normal leading-none text-black dark:text-white select-none pointer-events-none font-jakarta whitespace-nowrap text-center"
+            className="text-[clamp(1.5rem,8.2vw,7rem)] font-black tracking-tighter leading-none text-black dark:text-white select-none pointer-events-none font-jakarta whitespace-nowrap text-center overflow-hidden"
           >
             SHUBHAM GUNDU
           </div>
