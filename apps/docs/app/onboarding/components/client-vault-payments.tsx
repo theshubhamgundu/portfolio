@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { type Agreement, type VersionHistory } from '../../db';
+import { type Agreement, type VersionHistory, db } from '../../db';
 
 interface ClientVaultPaymentsProps {
   agreement: Agreement;
