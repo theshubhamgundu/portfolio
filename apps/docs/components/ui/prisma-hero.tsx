@@ -1,8 +1,8 @@
 'use client';
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useState, useEffect } from "react";
 
 /* ---------------- WordsPullUp ---------------- */
 interface WordsPullUpProps {
@@ -82,6 +82,52 @@ export const WordsPullUpMultiStyle = ({ segments, className = "", style }: Words
   );
 };
 
+/* ---------------- GreetingCycle ---------------- */
+const greetings = [
+  "Hello",
+  "Hola",
+  "नमस्ते",
+  "Bonjour",
+  "Ciao",
+  "こんにちは",
+  "안녕하세요",
+  "مرحبا",
+  "Olá",
+  "Hallo",
+  "Привет",
+  "你好",
+  "Merhaba",
+  "Sawubona",
+];
+
+const GreetingCycle = () => {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % greetings.length);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="relative h-[1.15em] overflow-hidden flex items-center justify-center">
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={index}
+          initial={{ y: 40, opacity: 0, filter: "blur(8px)" }}
+          animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+          exit={{ y: -40, opacity: 0, filter: "blur(8px)" }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          className="block text-center text-[#E1E0CC]/25 font-extrabold font-jakarta"
+        >
+          {greetings[index]}
+        </motion.span>
+      </AnimatePresence>
+    </div>
+  );
+};
+
 /* ---------------- Hero ---------------- */
 
 const PrismaHero = () => {
@@ -141,6 +187,18 @@ const PrismaHero = () => {
           className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-500 ease-out"
           style={{ opacity: 0 }}
         />
+
+        {/* Multi-language greeting — centered */}
+        <div className="absolute inset-0 z-[15] flex items-center justify-center pointer-events-none" style={{ paddingBottom: "12vh" }}>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="text-[18vw] sm:text-[14vw] md:text-[12vw] lg:text-[9vw] leading-none font-jakarta font-bold"
+          >
+            <GreetingCycle />
+          </motion.div>
+        </div>
 
         {/* Hero content */}
         <div className="absolute bottom-0 left-0 right-0 px-4 pb-4 sm:px-6 sm:pb-2 md:px-10">

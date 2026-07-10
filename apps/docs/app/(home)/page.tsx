@@ -217,11 +217,11 @@ export default function Page() {
           </div>
 
           {/* Center Content */}
-          <div className="flex-1 text-center max-w-[650px] px-4 space-y-6 transition-all duration-1000 ease-out [.is-hidden_&]:scale-[0.98] [.is-hidden_&]:opacity-25 [.is-visible_&]:scale-100 [.is-visible_&]:opacity-100">
-            <div className="flex items-center justify-center gap-2 text-neutral-400 dark:text-neutral-500 font-serif italic text-lg transition-colors duration-1000 [.is-hidden_&]:text-neutral-300/30 [.is-visible_&]:text-neutral-500">
-              <span className="h-px w-8 bg-neutral-300 dark:bg-neutral-800 transition-opacity duration-1000 [.is-hidden_&]:opacity-30" />
+          <div className="flex-1 text-center max-w-[850px] px-4 space-y-8 transition-all duration-1000 ease-out [.is-hidden_&]:scale-[0.98] [.is-hidden_&]:opacity-25 [.is-visible_&]:scale-100 [.is-visible_&]:opacity-100">
+            <div className="flex items-center justify-center gap-3 text-black dark:text-white font-serif italic text-xl antialiased transition-colors duration-1000 [.is-hidden_&]:text-neutral-300/30 [.is-visible_&]:text-black dark:[.is-visible_&]:text-white">
+              <span className="h-px w-10 bg-black/20 dark:bg-white/20 transition-opacity duration-1000 [.is-hidden_&]:opacity-30" />
               Hello!
-              <span className="h-px w-8 bg-neutral-300 dark:bg-neutral-800 transition-opacity duration-1000 [.is-hidden_&]:opacity-30" />
+              <span className="h-px w-10 bg-black/20 dark:bg-white/20 transition-opacity duration-1000 [.is-hidden_&]:opacity-30" />
             </div>
             
             <ScrollRevealText

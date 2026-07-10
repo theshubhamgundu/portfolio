@@ -151,86 +151,106 @@ const colorMap: Record<number, string> = {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 export function CaseStudies() {
-  const scrollRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-
-  // Listen to scroll inside the right snap container
-  const onScroll = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const idx = Math.round(el.scrollTop / el.clientHeight);
-    setActiveIndex(Math.max(0, Math.min(idx, cases.length - 1)));
-  }, []);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    el.addEventListener("scroll", onScroll, { passive: true });
-    return () => el.removeEventListener("scroll", onScroll);
-  }, [onScroll]);
+  const wheelLockRef = useRef<number | null>(null);
+  const [cursor, setCursor] = useState({ x: 50, y: 40, visible: false });
 
   const activeIndexRef = useRef(activeIndex);
   useEffect(() => {
     activeIndexRef.current = activeIndex;
   }, [activeIndex]);
 
+  useEffect(() => {
+    return () => {
+      if (wheelLockRef.current !== null) {
+        window.clearTimeout(wheelLockRef.current);
+      }
+    };
+  }, []);
+
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = ((event.clientX - bounds.left) / bounds.width) * 100;
+    const y = ((event.clientY - bounds.top) / bounds.height) * 100;
+
+    setCursor({
+      x: Math.max(0, Math.min(100, x)),
+      y: Math.max(0, Math.min(100, y)),
+      visible: true,
+    });
+  };
+
+  const handlePointerLeave = () => {
+    setCursor((current) => ({ ...current, visible: false }));
+  };
+
   // Forward wheel events from anywhere in the section into the right-side
-  // scroll-snap container so the user can scroll projects from either side.
+  // horizontal scroll-snap container so scrolling moves left-to-right.
   useEffect(() => {
     const section = sectionRef.current;
-    const snap = scrollRef.current;
-    if (!section || !snap) return;
+    if (!section) return;
 
     const handleWheel = (e: WheelEvent) => {
-      const isScrollDown = e.deltaY > 0;
-      const isScrollUp = e.deltaY < 0;
-
-      // If at the last project and scrolling down, let the page scroll naturally
-      if (activeIndexRef.current === cases.length - 1 && isScrollDown) {
+      if (wheelLockRef.current !== null) {
         return;
       }
 
-      // If at the first project and scrolling up, let the page scroll naturally
-      if (activeIndexRef.current === 0 && isScrollUp) {
+      const direction = Math.sign(e.deltaY);
+      if (direction === 0) {
         return;
       }
 
-      // Otherwise, prevent page scroll and forward the delta to the snap container
+      const nextIndex = Math.max(0, Math.min(activeIndexRef.current + direction, cases.length - 1));
+      if (nextIndex === activeIndexRef.current) {
+        return;
+      }
+
+      // Prevent page scroll and move one project at a time.
       e.preventDefault();
-      snap.scrollBy({ top: e.deltaY, behavior: "smooth" });
+      setActiveIndex(nextIndex);
+      wheelLockRef.current = window.setTimeout(() => {
+        wheelLockRef.current = null;
+      }, 420);
     };
 
     section.addEventListener("wheel", handleWheel, { passive: false });
     return () => section.removeEventListener("wheel", handleWheel);
   }, []);
 
-  // Click a dot → programmatically scroll to that card
-  const scrollTo = (idx: number) => {
-    scrollRef.current?.scrollTo({ top: idx * (scrollRef.current.clientHeight), behavior: "smooth" });
-  };
-
   const active = cases[activeIndex];
-  const PANEL_H = "h-[82vh]";
+  const PANEL_H = "h-[calc(100vh-12rem)] min-h-[44rem]";
 
   return (
-    <div className="relative col-span-full w-full pt-16 pb-2 select-none overflow-hidden">
+    <div
+      className="relative col-span-full w-full pt-16 pb-2 select-none overflow-hidden"
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
+    >
 
       {/* Dynamic Ambient Background Glow */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
         <motion.div
-          className="absolute -top-[20%] -left-[10%] w-[60%] h-[60%] rounded-full blur-[140px] opacity-70 transition-all"
+          className="absolute size-[42rem] rounded-full blur-[140px] opacity-70 transition-all"
           animate={{
             backgroundColor: colorMap[activeIndex] || "rgba(168, 85, 247, 0.12)",
+            left: `${cursor.x}%`,
+            top: `${cursor.y}%`,
+            opacity: cursor.visible ? 0.7 : 0.35,
           }}
           transition={{ duration: 0.8, ease: "easeInOut" }}
+          style={{ translateX: "-50%", translateY: "-50%" }}
         />
         <motion.div
-          className="absolute -bottom-[20%] -right-[10%] w-[60%] h-[60%] rounded-full blur-[140px] opacity-70 transition-all"
+          className="absolute size-[34rem] rounded-full blur-[140px] opacity-70 transition-all"
           animate={{
             backgroundColor: colorMap[(activeIndex + 2) % cases.length] || "rgba(236, 72, 153, 0.12)",
+            left: `${100 - cursor.x}%`,
+            top: `${100 - cursor.y}%`,
+            opacity: cursor.visible ? 0.55 : 0.25,
           }}
           transition={{ duration: 0.8, ease: "easeInOut" }}
+          style={{ translateX: "-50%", translateY: "-50%" }}
         />
       </div>
 
@@ -247,154 +267,72 @@ export function CaseStudies() {
         </h2>
       </div>
 
-      {/* ── Desktop: sticky-left + snap-right ── */}
-      <div ref={sectionRef} className={cn("hidden lg:flex gap-12 items-stretch max-w-6xl mx-auto px-4 md:px-8", PANEL_H)}>
-
-        {/* LEFT: info panel + timeline (fixed height, doesn't scroll) */}
-        <div className="w-[42%] shrink-0 flex flex-col">
-          <div className="relative flex-1 flex flex-col justify-center pr-14">
-
-            {/* Vertical timeline line */}
-            <div className="absolute right-5 top-6 bottom-6 w-[2px] bg-neutral-200 dark:bg-neutral-800 rounded-full">
-
-              {/* Sliding avatar along the timeline */}
-              <motion.div
-                className="absolute -left-[14px] size-7 rounded-full overflow-hidden border-2 border-white dark:border-neutral-900 shadow-lg z-10"
-                animate={{ top: `${(activeIndex / (cases.length - 1)) * 100}%` }}
-                transition={{ type: "spring", stiffness: 140, damping: 18 }}
-                style={{ translateY: "-50%" }}
-              >
-                <div className="relative w-full h-full">
-                  <Image src={ShubsssDevImage} alt="dev" fill sizes="28px" className="object-cover" />
-                </div>
-              </motion.div>
-            </div>
-
-            {/* Project info — crossfades on index change */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeIndex}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
-                className="space-y-5"
-              >
-                {/* Index indicator */}
-                <p className="text-[11px] font-bold tracking-widest uppercase text-neutral-400 dark:text-neutral-600">
-                  {String(activeIndex + 1).padStart(2, "0")} / {String(cases.length).padStart(2, "0")}
-                </p>
-
-                <h3 className="text-3xl font-extrabold text-neutral-900 dark:text-white font-jakarta">
-                  <span className="text-red-500 mr-2">—</span>
-                  {active.title}
-                </h3>
-
-                <p className="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                  {active.description}
-                </p>
-
-                <ul className="space-y-2">
-                  {active.highlights.map((h, i) => (
-                    <li key={i} className="flex gap-2 text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                      <span className="text-red-500 font-bold shrink-0 mt-0.5">+</span>
-                      {h}
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="flex flex-wrap gap-1.5 pt-1">
-                  {active.tech.map((t, i) => (
-                    <span
-                      key={i}
-                      className="flex items-center gap-1 px-2.5 py-1 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-[11px] text-neutral-600 dark:text-neutral-400 shadow-sm"
-                    >
-                      {logoMap[t] && (
-                        <span className="size-3 shrink-0 flex items-center justify-center">
-                          {logoMap[t]}
-                        </span>
-                      )}
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
-
-        {/* RIGHT: scroll-snap container — one card per viewport-height slot */}
-        <div
-          ref={scrollRef}
-          className="flex-1 overflow-y-scroll rounded-2xl"
-          style={{ scrollSnapType: "y mandatory", scrollbarWidth: "none" }}
-        >
-          {/* hide scrollbar on webkit */}
-          <style>{`.snap-hide-scroll::-webkit-scrollbar { display: none; }`}</style>
-
-          {cases.map((c, idx) => (
-            <div
-              key={idx}
-              className="w-full h-full flex items-center justify-center overflow-hidden flex-shrink-0"
-              style={{ scrollSnapAlign: "start", scrollSnapStop: "always" }}
+      {/* ── Desktop: full-area project viewer ── */}
+      <div ref={sectionRef} className={cn("hidden lg:block w-full", PANEL_H)}>
+        <div className="relative h-full overflow-hidden rounded-[2rem] border border-neutral-200/70 dark:border-neutral-800/70 bg-neutral-50 dark:bg-neutral-950 shadow-[0_20px_80px_rgba(0,0,0,0.12)]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeIndex}
+              className="absolute inset-0"
+              initial={{ opacity: 0, x: 48 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -48 }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
             >
-              <img
-                src={c.image}
-                alt={c.title}
-                loading="lazy"
-                decoding="async"
-                className="w-full h-auto block select-none pointer-events-none"
-                style={{ maxHeight: "100%" }}
-              />
-            </div>
-          ))}
+              <div className="absolute inset-0">
+                <img
+                  src={active.image}
+                  alt={active.title}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover select-none pointer-events-none"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/15 to-transparent" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.18),transparent_35%),linear-gradient(180deg,transparent,rgba(0,0,0,0.2))]" />
+              </div>
+
+              <div className="relative z-10 flex h-full flex-col justify-end p-6 sm:p-10 lg:p-12 text-white">
+                <div className="max-w-xl space-y-4">
+                  <p className="text-[11px] font-bold tracking-widest uppercase text-white/70">
+                    {String(activeIndex + 1).padStart(2, "0")} / {String(cases.length).padStart(2, "0")}
+                  </p>
+                  <div>
+                    <h3 className="text-3xl sm:text-4xl font-extrabold font-jakarta">
+                      {active.title}
+                    </h3>
+                    <p className="mt-2 text-sm sm:text-base text-white/80 max-w-lg leading-relaxed">
+                      {active.description}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {active.tech.map((t, i) => (
+                      <span
+                        key={i}
+                        className="inline-flex items-center gap-1 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] text-white/85 backdrop-blur-md"
+                      >
+                        {logoMap[t] && (
+                          <span className="size-3 shrink-0 flex items-center justify-center">
+                            {logoMap[t]}
+                          </span>
+                        )}
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
 
       {/* ── Mobile: plain vertical stack ── */}
-      <div className="flex flex-col gap-12 lg:hidden w-full max-w-2xl mx-auto px-4 sm:px-6">
-        {cases.map((c, idx) => (
-          <div key={idx} className="space-y-5">
-            <div className="space-y-3">
-              <p className="text-[11px] font-bold tracking-widest uppercase text-neutral-400 dark:text-neutral-500">
-                {String(idx + 1).padStart(2, "0")} / {String(cases.length).padStart(2, "0")}
-              </p>
-              <h3 className="text-2xl font-extrabold text-neutral-900 dark:text-white font-jakarta flex items-center gap-2">
-                <span className="text-red-500">—</span>
-                {c.title}
-              </h3>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                {c.description}
-              </p>
-              <ul className="space-y-1.5">
-                {c.highlights.map((h, i) => (
-                  <li key={i} className="flex gap-2 text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                    <span className="text-red-500 font-bold shrink-0">+</span>
-                    {h}
-                  </li>
-                ))}
-              </ul>
-              <div className="flex flex-wrap gap-1.5 pt-1">
-                {c.tech.map((t, i) => (
-                  <span
-                    key={i}
-                    className="flex items-center gap-1 px-2.5 py-1 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-[11px] text-neutral-600 dark:text-neutral-400"
-                  >
-                    {logoMap[t] && (
-                      <span className="size-3 shrink-0 flex items-center justify-center">
-                        {logoMap[t]}
-                      </span>
-                    )}
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div className="overflow-hidden">
-              <img src={c.image} alt={c.title} loading="lazy" decoding="async" className="w-full h-auto block select-none pointer-events-none rounded-xl" />
-            </div>
+      <div className="lg:hidden px-4 sm:px-6">
+        <div className="relative overflow-hidden rounded-[1.5rem] border border-neutral-200/70 dark:border-neutral-800/70 bg-neutral-50 dark:bg-neutral-950 shadow-[0_20px_80px_rgba(0,0,0,0.12)]">
+          <div className="aspect-[4/5] sm:aspect-[16/10] overflow-hidden">
+            <img src={active.image} alt={active.title} loading="lazy" decoding="async" className="h-full w-full object-cover select-none pointer-events-none" />
           </div>
-        ))}
+        </div>
       </div>
 
     </div>
